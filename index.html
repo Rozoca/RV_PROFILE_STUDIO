@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RV Profile Studio | Professional CV Analysis</title>
+    <title>RV Profile Studio | Professional CV Analysis v7.0</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -774,7 +774,7 @@
             <div class="logo-mark">RV</div>
             <div class="logo-text">
                 <h1>Profile Studio</h1>
-                <span>v6.0 Professional</span>
+                <span>v7.0 Professional</span>
             </div>
         </div>
         <div class="header-controls">
@@ -1141,7 +1141,7 @@
     </main>
 
     <footer class="footer">
-        <p>RV Profile Studio v6.0 | Desarrollado con ❤️ por <a href="#">RV</a> | © 2025</p>
+        <p>RV Profile Studio v7.0 | Desarrollado con ❤️ por <a href="#">RV</a> | © 2025</p>
     </footer>
 
     <div class="loading-overlay" id="loadingOverlay">
@@ -1607,17 +1607,17 @@ Responsibilities:
             checkReady();
         }
 
-        // ==================== MOTOR DE ANÁLISIS v6.0 ====================
+        // ==================== MOTOR DE ANÁLISIS v7.0 - MULTIIDIOMA ====================
         const sectorKeywords = {
-            finance: ['swift', 'sepa', 'iso20022', 'pagos', 'payments', 'banking', 'banca', 'psd2', 'compliance', 'riesgo', 'treasury', 'tesorería', 'trading', 'fintech', 'aml', 'kyc', 'instant', 'dora'],
-            tech: ['software', 'desarrollo', 'programming', 'agile', 'scrum', 'devops', 'cloud', 'aws', 'python', 'javascript', 'api', 'microservices', 'kubernetes', 'ci/cd', 'java', 'react'],
-            consulting: ['estrategia', 'strategy', 'consulting', 'análisis', 'analysis', 'due diligence', 'business case', 'stakeholder', 'transformation', 'cambio', 'change', 'roadmap'],
-            pmo: ['pmo', 'project management', 'portfolio', 'programa', 'program', 'pmp', 'prince2', 'pmbok', 'ms project', 'jira', 'gantt', 'wbs', 'stakeholder', 'scope', 'risk', 'budget', 'milestone', 'sprint', 'backlog'],
-            transformation: ['transformación', 'transformation', 'change management', 'gestión del cambio', 'reingeniería', 'digitalización', 'digitalization', 'bpm', 'lean', 'six sigma', 'kaizen', 'agile', 'roadmap', 'as-is', 'to-be', 'kpi', 'dashboard'],
-            supply: ['supply chain', 'logística', 'logistics', 'procurement', 'compras', 'inventario', 'inventory', 'warehouse', 'almacén', 'transporte', 'transport', 'distribución', 'distribution', 'erp', 'sap', 'mrp', 's&op', 'demand planning', 'forecasting', 'lean', 'just in time', 'jit'],
-            marketing: ['branding', 'digital marketing', 'seo', 'sem', 'social media', 'content', 'analytics', 'campaign', 'roi', 'engagement', 'leads'],
-            hr: ['talento', 'talent', 'recruiting', 'onboarding', 'desarrollo', 'performance', 'engagement', 'cultura', 'compensación', 'formación'],
-            legal: ['compliance', 'regulación', 'normativa', 'legal', 'contratos', 'rgpd', 'gdpr', 'audit', 'riesgo', 'governance'],
+            finance: ['swift', 'sepa', 'iso20022', 'pagos', 'payments', 'pagamentos', 'banking', 'banca', 'banco', 'psd2', 'compliance', 'riesgo', 'risk', 'risco', 'treasury', 'tesorería', 'tesouraria', 'trading', 'fintech', 'aml', 'kyc', 'instant', 'dora', 'cbpr'],
+            tech: ['software', 'desarrollo', 'development', 'desenvolvimento', 'programming', 'programación', 'programação', 'agile', 'scrum', 'devops', 'cloud', 'aws', 'azure', 'python', 'javascript', 'api', 'microservices', 'kubernetes', 'ci/cd', 'java', 'react'],
+            consulting: ['estrategia', 'strategy', 'estratégia', 'consulting', 'consultoria', 'consultoría', 'análisis', 'analysis', 'análise', 'due diligence', 'business case', 'stakeholder', 'transformation', 'cambio', 'change', 'mudança', 'roadmap'],
+            pmo: ['pmo', 'project management', 'gestión de proyectos', 'gestão de projetos', 'portfolio', 'programa', 'program', 'pmp', 'prince2', 'pmbok', 'ms project', 'jira', 'gantt', 'wbs', 'stakeholder', 'scope', 'risk', 'budget', 'milestone', 'sprint', 'backlog'],
+            transformation: ['transformación', 'transformation', 'transformação', 'change management', 'gestión del cambio', 'gestão de mudanças', 'reingeniería', 'reengenharia', 'digitalización', 'digitalização', 'digitalization', 'bpm', 'lean', 'six sigma', 'kaizen', 'agile', 'roadmap', 'as-is', 'to-be', 'kpi', 'dashboard'],
+            supply: ['supply chain', 'cadeia de suprimentos', 'cadena de suministro', 'logística', 'logistics', 'procurement', 'compras', 'inventario', 'inventory', 'inventário', 'warehouse', 'almacén', 'armazém', 'transporte', 'transport', 'distribución', 'distribuição', 'distribution', 'erp', 'sap', 'oracle', 'mrp', 's&op', 'demand planning', 'forecasting', 'lean', 'just in time', 'jit', 'otif', 'fill rate', 'drp', 'abastecimento', 'ruptura', 'estoque', 'cd', 'centro de distribuição'],
+            marketing: ['branding', 'digital marketing', 'marketing digital', 'seo', 'sem', 'social media', 'redes sociales', 'mídias sociais', 'content', 'contenido', 'conteúdo', 'analytics', 'campaign', 'campaña', 'campanha', 'roi', 'engagement', 'leads'],
+            hr: ['talento', 'talent', 'recruiting', 'reclutamiento', 'recrutamento', 'onboarding', 'desarrollo', 'development', 'desenvolvimento', 'performance', 'desempenho', 'engagement', 'cultura', 'culture', 'compensación', 'compensação', 'formación', 'formação', 'training'],
+            legal: ['compliance', 'cumplimiento', 'conformidade', 'regulación', 'regulação', 'regulation', 'normativa', 'legal', 'contratos', 'contracts', 'rgpd', 'gdpr', 'lgpd', 'audit', 'auditoría', 'auditoria', 'riesgo', 'risco', 'risk', 'governance'],
             health: ['pharma', 'clinical', 'regulatory', 'fda', 'ema', 'medical', 'healthcare', 'trials', 'gmp', 'patient'],
             general: ['gestión', 'management', 'proyecto', 'project', 'equipo', 'team', 'liderazgo', 'leadership', 'resultados', 'kpi']
         };
@@ -1637,8 +1637,54 @@ Responsibilities:
             const keywordScore = Math.min(100, (foundKeywords.length / keywords.length) * 140);
             
             // EXPERIENCIA CALIBRADA v6.0
-            const yearsMatch = cv.match(/(\d+)\+?\s*(años|years|anos)/i);
-            const years = yearsMatch ? parseInt(yearsMatch[1]) : 5;
+            // EXPERIENCIA - Regex robusta v7.0
+            const extractYears = (text) => {
+                const textLower = text.toLowerCase();
+                // Patrones numéricos
+                const patterns = [
+                    /(\d+)\+?\s*(años|years|anos|ans)\s*(de\s*)?(experiencia|experience|experiência)?/i,
+                    /(más de|more than|mais de|over)\s*(\d+)\s*(años|years|anos)/i,
+                    /(\d+)\s*-\s*\d+\s*(años|years|anos)/i,
+                    /experiencia\s*(de\s*)?(\d+)\s*(años|years|anos)/i
+                ];
+                for (const pattern of patterns) {
+                    const match = textLower.match(pattern);
+                    if (match) {
+                        const num = match.find((m, i) => i > 0 && !isNaN(parseInt(m)));
+                        if (num) return parseInt(num);
+                    }
+                }
+                // Patrones textuales
+                const textNumbers = {
+                    'uno': 1, 'one': 1, 'um': 1, 'dos': 2, 'two': 2, 'dois': 2,
+                    'tres': 3, 'three': 3, 'três': 3, 'cuatro': 4, 'four': 4, 'quatro': 4,
+                    'cinco': 5, 'five': 5, 'seis': 6, 'six': 6, 'siete': 7, 'seven': 7, 'sete': 7,
+                    'ocho': 8, 'eight': 8, 'oito': 8, 'nueve': 9, 'nine': 9, 'nove': 9,
+                    'diez': 10, 'ten': 10, 'dez': 10, 'once': 11, 'eleven': 11, 'onze': 11,
+                    'doce': 12, 'twelve': 12, 'doze': 12, 'quince': 15, 'fifteen': 15, 'quinze': 15,
+                    'veinte': 20, 'twenty': 20, 'vinte': 20
+                };
+                for (const [word, num] of Object.entries(textNumbers)) {
+                    if (new RegExp(`${word}\\s*(años|years|anos)`, 'i').test(textLower)) return num;
+                }
+                // Calcular por rangos de fechas
+                const dateRanges = textLower.match(/(\d{4})\s*[-–]\s*(\d{4}|presente|present|actual|atualmente|currently)/gi);
+                if (dateRanges && dateRanges.length > 0) {
+                    let totalYears = 0;
+                    const currentYear = new Date().getFullYear();
+                    dateRanges.forEach(range => {
+                        const years = range.match(/\d{4}/g);
+                        if (years && years.length >= 1) {
+                            const startYear = parseInt(years[0]);
+                            const endYear = years.length > 1 ? parseInt(years[1]) : currentYear;
+                            totalYears += (endYear - startYear);
+                        }
+                    });
+                    if (totalYears > 0) return Math.min(totalYears, 35);
+                }
+                return 5; // Default
+            };
+            const years = extractYears(cv);
             
             let experienceBase;
             if (years >= 20) experienceBase = 95;
@@ -1687,13 +1733,43 @@ Responsibilities:
             languageScore = Math.min(100, languageScore);
             
             // Liderazgo
-            const leaderKeywords = ['líder', 'leader', 'manager', 'director', 'coordinador', 'coordinator', 'equipo', 'team', 'gestión', 'management', 'personas', 'people'];
-            const leaderFound = leaderKeywords.filter(k => cvLower.includes(k)).length;
+            // LIDERAZGO MULTIIDIOMA v7.0
+            const leaderKeywords = [
+                // Español
+                'líder', 'manager', 'director', 'coordinador', 'jefe', 'responsable', 'supervisor',
+                'gestión de equipos', 'equipo', 'personas',
+                // English  
+                'leader', 'manager', 'director', 'coordinator', 'head', 'supervisor', 'team lead',
+                'people management', 'team', 'leadership',
+                // Português
+                'líder', 'gerente', 'diretor', 'coordenador', 'chefe', 'responsável', 'supervisor',
+                'gestão de equipes', 'equipe', 'pessoas', 'liderança'
+            ];
+            const leaderFound = leaderKeywords.filter(k => cvLower.includes(k.toLowerCase())).length;
             const leadershipScore = Math.min(100, 25 + leaderFound * 10);
             
             // Soft Skills
-            const softKeywords = ['comunicación', 'communication', 'negociación', 'negotiation', 'resolución', 'problem solving', 'colaboración', 'collaboration', 'adaptabilidad', 'adaptability'];
-            const softFound = softKeywords.filter(k => cvLower.includes(k)).length;
+            // SOFT SKILLS MULTIIDIOMA v7.0 - Incluye ES/EN/PT
+            const softKeywords = [
+                // Español
+                'comunicación', 'negociación', 'resolución', 'colaboración', 'adaptabilidad', 
+                'liderazgo', 'trabajo en equipo', 'pensamiento crítico', 'creatividad', 'empatía',
+                'gestión del tiempo', 'toma de decisiones', 'influencia', 'presentación', 'facilitación',
+                'gestión de conflitos', 'orientación a resultados',
+                // English
+                'communication', 'negotiation', 'problem solving', 'collaboration', 'adaptability',
+                'leadership', 'teamwork', 'critical thinking', 'creativity', 'empathy',
+                'time management', 'decision making', 'influence', 'presentation', 'facilitation',
+                'conflict resolution', 'results oriented',
+                // Português
+                'comunicação', 'negociação', 'resolução', 'colaboração', 'adaptabilidade',
+                'liderança', 'trabalho em equipe', 'pensamento crítico', 'criatividade', 'empatia',
+                'gestão do tempo', 'tomada de decisão', 'influência', 'apresentação', 'facilitação',
+                'gestão de conflitos', 'orientação a resultados',
+                // Comunes en CVs
+                'stakeholder', 'engagement', 'workshop', 'coaching', 'mentoring', 'customer'
+            ];
+            const softFound = softKeywords.filter(k => cvLower.includes(k.toLowerCase())).length;
             const softScore = Math.min(100, 30 + softFound * 12);
 
             const scores = {
@@ -1861,6 +1937,103 @@ Responsibilities:
             return templates[currentLang];
         }
 
+        // ==================== JOB FIT ANALYSIS v7.0 ====================
+        function analyzeJobFitWithRules(cv, job) {
+            const cvLower = cv.toLowerCase();
+            const jobLower = job.toLowerCase();
+            
+            // Extraer keywords del job
+            const allKeywords = Object.values(sectorKeywords).flat();
+            const jobKeywords = allKeywords.filter(kw => jobLower.includes(kw.toLowerCase()));
+            
+            // Comparar CV vs Job
+            const foundInCV = jobKeywords.filter(kw => cvLower.includes(kw.toLowerCase()));
+            const missingInCV = jobKeywords.filter(kw => !cvLower.includes(kw.toLowerCase()));
+            
+            // Score de match de keywords
+            const keywordMatchScore = jobKeywords.length > 0 
+                ? Math.round((foundInCV.length / jobKeywords.length) * 100)
+                : 50;
+            
+            // Extraer años requeridos del job
+            const extractYearsFromJob = (text) => {
+                const match = text.match(/(\d+)\+?\s*(años|years|anos)/i);
+                return match ? parseInt(match[1]) : 3;
+            };
+            const extractYearsFromCV = (text) => {
+                const match = text.match(/(\d+)\+?\s*(años|years|anos)/i);
+                if (match) return parseInt(match[1]);
+                const dateRanges = text.match(/(\d{4})\s*[-–]\s*(\d{4}|presente|present|actual)/gi);
+                if (dateRanges) {
+                    let total = 0;
+                    dateRanges.forEach(range => {
+                        const years = range.match(/\d{4}/g);
+                        if (years && years.length >= 1) {
+                            const start = parseInt(years[0]);
+                            const end = years.length > 1 ? parseInt(years[1]) : new Date().getFullYear();
+                            total += (end - start);
+                        }
+                    });
+                    return Math.min(total, 35);
+                }
+                return 5;
+            };
+            
+            const jobYears = extractYearsFromJob(job);
+            const cvYears = extractYearsFromCV(cv);
+            
+            // Score de requisitos
+            let requirementsScore = 50;
+            if (cvYears >= jobYears) requirementsScore += 25;
+            else if (cvYears >= jobYears * 0.7) requirementsScore += 10;
+            else requirementsScore -= 10;
+            
+            // Check idiomas
+            if (jobLower.includes('english') || jobLower.includes('inglés') || jobLower.includes('inglês')) {
+                if (/\b(c1|c2|fluent|nativo|bilingual)\b/i.test(cv)) requirementsScore += 15;
+                else if (/\bb2\b/i.test(cv)) requirementsScore += 5;
+                else requirementsScore -= 8;
+            }
+            
+            // Check certificaciones
+            const certs = ['pmp', 'prince2', 'six sigma', 'scrum', 'safe', 'itil', 'aws', 'azure', 'lean'];
+            certs.forEach(cert => {
+                if (jobLower.includes(cert) && cvLower.includes(cert)) requirementsScore += 4;
+            });
+            
+            requirementsScore = Math.max(20, Math.min(100, requirementsScore));
+            
+            // Score final de Job Fit (diferente al Profile Score)
+            const fitScore = Math.round((keywordMatchScore * 0.55) + (requirementsScore * 0.45));
+            
+            // Golden keywords (las más importantes del job - de la sección "required")
+            const goldenKeywords = jobKeywords.slice(0, 8);
+            
+            // Obtener competencias base del CV
+            const baseResult = analyzeWithRules(cv, null);
+            
+            // Generar síntesis específica de Job Fit
+            const fitSynthesis = {
+                es: `Adecuación del ${fitScore}% al puesto. ${foundInCV.length > 0 ? `Se detectaron ${foundInCV.length} keywords coincidentes.` : ''} ${missingInCV.length > 0 ? `Faltan ${missingInCV.length} keywords importantes: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'La experiencia cumple los requisitos.' : `La experiencia (${cvYears} años) está por debajo de lo requerido (${jobYears} años).`}`,
+                en: `${fitScore}% fit with the position. ${foundInCV.length > 0 ? `${foundInCV.length} matching keywords detected.` : ''} ${missingInCV.length > 0 ? `Missing ${missingInCV.length} important keywords: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'Experience meets requirements.' : `Experience (${cvYears} years) is below required (${jobYears} years).`}`,
+                pt: `Adequação de ${fitScore}% à vaga. ${foundInCV.length > 0 ? `${foundInCV.length} keywords correspondentes detectadas.` : ''} ${missingInCV.length > 0 ? `Faltam ${missingInCV.length} keywords importantes: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'A experiência atende aos requisitos.' : `A experiência (${cvYears} anos) está abaixo do requerido (${jobYears} anos).`}`
+            };
+            
+            return {
+                score: fitScore,
+                competencies: baseResult.competencies,
+                swot: baseResult.swot,
+                recommendations: baseResult.recommendations,
+                synthesis: fitSynthesis[currentLang] || fitSynthesis.es,
+                keywords: {
+                    golden: goldenKeywords,
+                    found: foundInCV.slice(0, 12),
+                    missing: missingInCV.slice(0, 10)
+                },
+                mode: 'rules'
+            };
+        }
+
         // ==================== ANALYSIS FUNCTIONS ====================
         async function analyzeProfile() {
             const cv = document.getElementById('cvInput').value;
@@ -1896,7 +2069,8 @@ Responsibilities:
                     const apiKey = document.getElementById('apiKey').value;
                     result = await analyzeWithAI(cv, job, apiKey);
                 } else {
-                    result = analyzeWithRules(cv, job);
+                    // Usar función diferenciada de Job Fit v7.0
+                    result = analyzeJobFitWithRules(cv, job);
                 }
                 
                 lastAnalysisResult = result;
