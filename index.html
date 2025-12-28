@@ -257,4 +257,1278 @@
         .consultancy-feature { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); }
         .consultancy-feature .check { color: var(--success); font-weight: bold; }
         .btn-cta { padding: 16px 40px; background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
-        .btn-cta:ho
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(184,134,11,0.4); }
+
+        #continueToPhase2 { display: flex; }
+
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .loading-overlay.visible { display: flex; }
+        .loading-content { background: var(--bg-secondary); padding: 48px; border-radius: 20px; text-align: center; min-width: 320px; }
+        .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-content p { color: var(--text-secondary); font-size: 1rem; }
+
+        .footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); margin-top: 60px; color: var(--text-muted); font-size: 0.9rem; }
+        .footer a { color: var(--accent-gold); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .header { padding: 16px 20px; }
+            .main-container { padding: 30px 20px; }
+            .hero h2 { font-size: 2rem; }
+            .phase-tabs { flex-direction: column; }
+            .sector-grid { grid-template-columns: repeat(2, 1fr); }
+            .level-pills { flex-wrap: wrap; }
+            .competency-grid { grid-template-columns: 1fr; }
+            .swot-grid { grid-template-columns: 1fr; }
+            .scoring-factors { grid-template-columns: 1fr; }
+            .consultancy-features { flex-direction: column; align-items: center; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-mark">RV</div>
+            <div class="logo-text">
+                <h1>Profile Studio</h1>
+                <span>v7.1 Professional</span>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="lang-selector">
+                <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
+                <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('pt')">PT</button>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="hero">
+            <h2 data-i18n="hero_title">Analiza tu perfil profesional</h2>
+            <p data-i18n="hero_subtitle">Obtén un diagnóstico detallado de tu CV con recomendaciones estratégicas personalizadas</p>
+        </div>
+
+        <div class="phase-tabs">
+            <div class="phase-tab active" onclick="goToPhase(1)" id="tab1">
+                <div class="phase-number">1</div>
+                <div class="phase-info">
+                    <h3 data-i18n="phase1_title">Análisis de Perfil</h3>
+                    <span data-i18n="phase1_desc">Evalúa tu CV</span>
+                </div>
+            </div>
+            <div class="phase-tab" onclick="goToPhase(2)" id="tab2">
+                <div class="phase-number">2</div>
+                <div class="phase-info">
+                    <h3 data-i18n="phase2_title">Job Fit</h3>
+                    <span data-i18n="phase2_desc">Compara con ofertas</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel active" id="phase1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon">🎯</div>
+                        <div>
+                            <h3 data-i18n="context_title">Contexto profesional</h3>
+                            <span data-i18n="context_desc">Selecciona tu sector e industria</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 14px; font-size: 0.9rem;" data-i18n="sector_label">Sector / Industria</label>
+                    <div class="sector-grid" id="sectorGrid">
+                        <div class="sector-option" data-sector="finance" onclick="selectSector(this)"><span class="icon">🏦</span><span class="name" data-i18n="sector_finance">Finanzas / Banca</span></div>
+                        <div class="sector-option" data-sector="tech" onclick="selectSector(this)"><span class="icon">💻</span><span class="name" data-i18n="sector_tech">Tecnología</span></div>
+                        <div class="sector-option" data-sector="consulting" onclick="selectSector(this)"><span class="icon">📊</span><span class="name" data-i18n="sector_consulting">Consultoría</span></div>
+                        <div class="sector-option" data-sector="pmo" onclick="selectSector(this)"><span class="icon">📋</span><span class="name" data-i18n="sector_pmo">PMO / Proyectos</span></div>
+                        <div class="sector-option" data-sector="transformation" onclick="selectSector(this)"><span class="icon">🔄</span><span class="name" data-i18n="sector_transformation">Transformación</span></div>
+                        <div class="sector-option" data-sector="supply" onclick="selectSector(this)"><span class="icon">📦</span><span class="name" data-i18n="sector_supply">Supply Chain</span></div>
+                        <div class="sector-option" data-sector="marketing" onclick="selectSector(this)"><span class="icon">📱</span><span class="name" data-i18n="sector_marketing">Marketing</span></div>
+                        <div class="sector-option" data-sector="hr" onclick="selectSector(this)"><span class="icon">👥</span><span class="name" data-i18n="sector_hr">RRHH</span></div>
+                        <div class="sector-option" data-sector="legal" onclick="selectSector(this)"><span class="icon">⚖️</span><span class="name" data-i18n="sector_legal">Legal</span></div>
+                        <div class="sector-option" data-sector="health" onclick="selectSector(this)"><span class="icon">🏥</span><span class="name" data-i18n="sector_health">Salud / Pharma</span></div>
+                        <div class="sector-option" data-sector="general" onclick="selectSector(this)"><span class="icon">🌐</span><span class="name" data-i18n="sector_general">Otro / General</span></div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 28px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 14px; font-size: 0.9rem;" data-i18n="level_label">Nivel profesional</label>
+                    <div class="level-pills" id="levelPills">
+                        <div class="level-pill" data-level="junior" onclick="selectLevel(this)"><span class="label">Entry / Junior</span><span class="years" data-i18n="years_0_3">0-3 años</span></div>
+                        <div class="level-pill" data-level="mid" onclick="selectLevel(this)"><span class="label">Mid-Level</span><span class="years" data-i18n="years_3_7">3-7 años</span></div>
+                        <div class="level-pill" data-level="senior" onclick="selectLevel(this)"><span class="label">Senior / Lead</span><span class="years" data-i18n="years_7_12">7-12 años</span></div>
+                        <div class="level-pill" data-level="director" onclick="selectLevel(this)"><span class="label">Director / Exec</span><span class="years" data-i18n="years_12_plus">12+ años</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon">📄</div>
+                        <div>
+                            <h3 data-i18n="cv_title">Currículum Vitae</h3>
+                            <span data-i18n="cv_desc">Pega el contenido de tu CV</span>
+                        </div>
+                    </div>
+                    <button class="btn-ghost" onclick="loadExampleCV()" data-i18n="load_example">Cargar ejemplo</button>
+                </div>
+                <div class="text-input-wrapper">
+                    <textarea id="cvInput" placeholder="Pega aquí el contenido de tu CV..." data-i18n-placeholder="cv_placeholder"></textarea>
+                    <span class="char-count"><span id="cvCharCount">0</span> caracteres</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon">🧠</div>
+                        <div>
+                            <h3 data-i18n="analysis_mode">Modo de análisis</h3>
+                            <span data-i18n="analysis_mode_desc">Elige entre análisis rápido o con IA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="api-toggle">
+                    <div class="toggle-switch" id="aiToggle" onclick="toggleAI()"></div>
+                    <div>
+                        <span style="font-weight: 600;" data-i18n="ai_analysis">Análisis con Claude AI</span>
+                        <span style="display: block; font-size: 0.85rem; color: var(--text-muted);" data-i18n="ai_analysis_desc">Análisis más profundo y contextual (requiere API Key)</span>
+                    </div>
+                </div>
+                <div class="api-input" id="apiInput">
+                    <input type="password" id="apiKey" placeholder="sk-ant-api03-..." data-i18n-placeholder="api_placeholder">
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeProfile()" disabled>
+                    <span data-i18n="analyze_btn">Analizar Perfil</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="panel" id="phase2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon">📋</div>
+                        <div>
+                            <h3 data-i18n="job_title">Descripción del puesto</h3>
+                            <span data-i18n="job_desc">Pega la oferta de trabajo para comparar</span>
+                        </div>
+                    </div>
+                    <button class="btn-ghost" onclick="loadExampleJob()" data-i18n="load_example">Cargar ejemplo</button>
+                </div>
+                <div class="text-input-wrapper">
+                    <textarea id="jobInput" placeholder="Pega aquí la descripción del puesto..." data-i18n-placeholder="job_placeholder"></textarea>
+                    <span class="char-count"><span id="jobCharCount">0</span> caracteres</span>
+                </div>
+            </div>
+            <div class="action-bar">
+                <button class="btn btn-secondary" onclick="goToPhase(1)"><span>←</span><span data-i18n="back_btn">Volver</span></button>
+                <button class="btn btn-primary" id="compareFitBtn" onclick="analyzeJobFit()" disabled><span data-i18n="compare_btn">Analizar Adecuación</span><span>→</span></button>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <div class="score-hero">
+                <div class="score-value" id="mainScore">—</div>
+                <div class="score-label" id="scoreLabel" data-i18n="profile_score">Puntuación del Perfil</div>
+                <div class="score-meta" id="scoreMeta"></div>
+                <div class="score-explanation" id="scoreExplanation" onclick="toggleScoreExplanation()">
+                    <div class="score-explanation-header">
+                        <h4><span>ℹ️</span><span data-i18n="how_calculated">¿Cómo calculamos tu puntuación?</span></h4>
+                        <span class="score-explanation-toggle">▼</span>
+                    </div>
+                    <div class="score-explanation-content">
+                        <div class="scoring-factors" id="scoringFactors"></div>
+                        <div class="disclaimer-box">
+                            <span class="icon">⚠️</span>
+                            <p><strong data-i18n="disclaimer_title">Aviso importante:</strong> <span data-i18n="disclaimer_text">Esta evaluación es una aproximación basada en el análisis de palabras clave, competencias detectadas, experiencia profesional y formación académica. Los resultados son orientativos.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="executive-summary" id="executiveSummary">
+                <div class="summary-header">
+                    <div class="summary-title" data-i18n="executive_summary">📋 Síntesis Ejecutiva</div>
+                    <button class="btn btn-secondary" onclick="downloadPDFReport()"><span>📄</span><span data-i18n="download_pdf">Descargar PDF</span></button>
+                </div>
+                <div class="summary-content" id="summaryContent"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><div class="card-icon">📊</div><div><h3 data-i18n="competencies_title">Competencias</h3><span data-i18n="competencies_desc">Evaluación por áreas</span></div></div>
+                </div>
+                <div class="competency-grid">
+                    <div class="radar-container"><canvas id="radarChart"></canvas></div>
+                    <div class="competency-bars" id="competencyBars"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><div class="card-icon">🎯</div><div><h3 data-i18n="swot_title">Análisis DAFO</h3><span data-i18n="swot_desc">Fortalezas, debilidades, oportunidades y amenazas</span></div></div>
+                </div>
+                <div class="swot-grid">
+                    <div class="swot-box strengths"><div class="swot-title" data-i18n="strengths">Fortalezas</div><ul class="swot-list" id="strengths"></ul></div>
+                    <div class="swot-box weaknesses"><div class="swot-title" data-i18n="weaknesses">Debilidades</div><ul class="swot-list" id="weaknesses"></ul></div>
+                    <div class="swot-box opportunities"><div class="swot-title" data-i18n="opportunities">Oportunidades</div><ul class="swot-list" id="opportunities"></ul></div>
+                    <div class="swot-box threats"><div class="swot-title" data-i18n="threats">Amenazas</div><ul class="swot-list" id="threats"></ul></div>
+                </div>
+            </div>
+
+            <div class="card" id="keywordsCard" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title"><div class="card-icon">🔑</div><div><h3 data-i18n="keywords_title">Palabras Clave</h3><span data-i18n="keywords_desc">Coincidencias con la oferta</span></div></div>
+                </div>
+                <div class="keywords-section"><div class="keywords-label">⭐ <span data-i18n="golden_keywords">Keywords estratégicas</span></div><div class="keywords-container" id="goldenKeywords"></div></div>
+                <div class="keywords-section"><div class="keywords-label">✓ <span data-i18n="found_keywords">Encontradas</span></div><div class="keywords-container" id="foundKeywords"></div></div>
+                <div class="keywords-section"><div class="keywords-label">✗ <span data-i18n="missing_keywords">Ausentes</span></div><div class="keywords-container" id="missingKeywords"></div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><div class="card-icon">💡</div><div><h3 data-i18n="recommendations_title">Plan de Acción</h3><span data-i18n="recommendations_desc">Recomendaciones estratégicas categorizadas</span></div></div>
+                </div>
+                <div class="recommendations-container" id="recommendations"></div>
+                <div class="consultancy-cta" id="consultancyCTA">
+                    <div class="consultancy-cta-icon">🎯</div>
+                    <h3 data-i18n="consultancy_title">¿Necesitas ayuda profesional?</h3>
+                    <p data-i18n="consultancy_desc">Lleva tu perfil al siguiente nivel con una sesión de consultoría personalizada con el equipo RV Profile Studio.</p>
+                    <div class="consultancy-features">
+                        <div class="consultancy-feature"><span class="check">✓</span><span data-i18n="feature_1">Revisión experta de CV</span></div>
+                        <div class="consultancy-feature"><span class="check">✓</span><span data-i18n="feature_2">Optimización ATS</span></div>
+                        <div class="consultancy-feature"><span class="check">✓</span><span data-i18n="feature_3">Estrategia de posicionamiento</span></div>
+                        <div class="consultancy-feature"><span class="check">✓</span><span data-i18n="feature_4">Preparación de entrevistas</span></div>
+                    </div>
+                    <button class="btn-cta" onclick="requestConsultancy()"><span data-i18n="consultancy_btn">Solicitar Consultoría</span><span>→</span></button>
+                </div>
+            </div>
+
+            <div class="action-bar" id="continueToPhase2">
+                <button class="btn btn-primary" onclick="goToPhase(2)"><span data-i18n="continue_phase2">Comparar con oferta de trabajo</span><span>→</span></button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>RV Profile Studio v7.1 | Desarrollado con ❤️ por <a href="#">RV</a> | © 2025</p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingMessage" data-i18n="analyzing">Analizando tu perfil...</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== STATE ====================
+        let currentLang = 'es';
+        let currentTheme = 'light';
+        let selectedSector = null;
+        let selectedLevel = null;
+        let useAI = false;
+        let radarChart = null;
+        let lastAnalysisResult = null;
+        let lastAnalysisScoring = null;
+
+        // ==================== TRANSLATIONS ====================
+        const translations = {
+            es: {
+                hero_title: 'Analiza tu perfil profesional',
+                hero_subtitle: 'Obtén un diagnóstico detallado de tu CV con recomendaciones estratégicas personalizadas',
+                phase1_title: 'Análisis de Perfil', phase1_desc: 'Evalúa tu CV',
+                phase2_title: 'Job Fit', phase2_desc: 'Compara con ofertas',
+                context_title: 'Contexto profesional', context_desc: 'Selecciona tu sector e industria',
+                sector_label: 'Sector / Industria',
+                sector_finance: 'Finanzas / Banca', sector_tech: 'Tecnología', sector_consulting: 'Consultoría',
+                sector_pmo: 'PMO / Proyectos', sector_transformation: 'Transformación', sector_supply: 'Supply Chain',
+                sector_marketing: 'Marketing', sector_hr: 'RRHH', sector_legal: 'Legal',
+                sector_health: 'Salud / Pharma', sector_general: 'Otro / General',
+                level_label: 'Nivel profesional',
+                years_0_3: '0-3 años', years_3_7: '3-7 años', years_7_12: '7-12 años', years_12_plus: '12+ años',
+                cv_title: 'Currículum Vitae', cv_desc: 'Pega el contenido de tu CV',
+                load_example: 'Cargar ejemplo', cv_placeholder: 'Pega aquí el contenido de tu CV...',
+                analysis_mode: 'Modo de análisis', analysis_mode_desc: 'Elige entre análisis rápido o con IA',
+                ai_analysis: 'Análisis con Claude AI', ai_analysis_desc: 'Análisis más profundo (requiere API Key)',
+                api_placeholder: 'sk-ant-api03-...', analyze_btn: 'Analizar Perfil',
+                job_title: 'Descripción del puesto', job_desc: 'Pega la oferta de trabajo para comparar',
+                job_placeholder: 'Pega aquí la descripción del puesto...', back_btn: 'Volver',
+                compare_btn: 'Analizar Adecuación', profile_score: 'Puntuación del Perfil', fit_score: 'Adecuación al Puesto',
+                executive_summary: '📋 Síntesis Ejecutiva', download_pdf: 'Descargar PDF',
+                how_calculated: '¿Cómo calculamos tu puntuación?',
+                disclaimer_title: 'Aviso importante:', disclaimer_text: 'Esta evaluación es una aproximación basada en el análisis de palabras clave, competencias y experiencia. Los resultados son orientativos.',
+                competencies_title: 'Competencias', competencies_desc: 'Evaluación por áreas',
+                swot_title: 'Análisis DAFO', swot_desc: 'Fortalezas, debilidades, oportunidades y amenazas',
+                strengths: 'Fortalezas', weaknesses: 'Debilidades', opportunities: 'Oportunidades', threats: 'Amenazas',
+                keywords_title: 'Palabras Clave', keywords_desc: 'Coincidencias con la oferta',
+                golden_keywords: 'Keywords estratégicas', found_keywords: 'Encontradas', missing_keywords: 'Ausentes',
+                recommendations_title: 'Plan de Acción', recommendations_desc: 'Recomendaciones estratégicas categorizadas',
+                rec_training: 'Formación & Idiomas', rec_certification: 'Certificaciones', rec_cv_improvement: 'Mejora del CV',
+                consultancy_title: '¿Necesitas ayuda profesional?',
+                consultancy_desc: 'Lleva tu perfil al siguiente nivel con una sesión de consultoría personalizada.',
+                feature_1: 'Revisión experta de CV', feature_2: 'Optimización ATS',
+                feature_3: 'Estrategia de posicionamiento', feature_4: 'Preparación de entrevistas',
+                consultancy_btn: 'Solicitar Consultoría', continue_phase2: 'Comparar con oferta de trabajo',
+                analyzing: 'Analizando tu perfil...',
+                analyzing_semantic: 'Analizando patrones semánticos...',
+                analyzing_metrics: 'Calculando métricas de impacto...',
+                analyzing_competencies: 'Generando perfil competencial...',
+                scoring_experience: 'Experiencia', scoring_experience_desc: 'Años en el sector',
+                scoring_technical: 'Técnico', scoring_technical_desc: 'Keywords técnicas',
+                scoring_education: 'Formación', scoring_education_desc: 'Títulos y certificaciones',
+                scoring_languages: 'Idiomas', scoring_languages_desc: 'Nivel certificado',
+                scoring_leadership: 'Liderazgo', scoring_leadership_desc: 'Gestión de equipos',
+                scoring_soft: 'Soft Skills', scoring_soft_desc: 'Habilidades blandas'
+            },
+            en: {
+                hero_title: 'Analyze your professional profile',
+                hero_subtitle: 'Get a detailed diagnosis of your CV with personalized strategic recommendations',
+                phase1_title: 'Profile Analysis', phase1_desc: 'Evaluate your CV',
+                phase2_title: 'Job Fit', phase2_desc: 'Compare with offers',
+                context_title: 'Professional context', context_desc: 'Select your sector and industry',
+                sector_label: 'Sector / Industry',
+                sector_finance: 'Finance / Banking', sector_tech: 'Technology', sector_consulting: 'Consulting',
+                sector_pmo: 'PMO / Projects', sector_transformation: 'Transformation', sector_supply: 'Supply Chain',
+                sector_marketing: 'Marketing', sector_hr: 'HR', sector_legal: 'Legal',
+                sector_health: 'Health / Pharma', sector_general: 'Other / General',
+                level_label: 'Professional level',
+                years_0_3: '0-3 years', years_3_7: '3-7 years', years_7_12: '7-12 years', years_12_plus: '12+ years',
+                cv_title: 'Curriculum Vitae', cv_desc: 'Paste your CV content',
+                load_example: 'Load example', cv_placeholder: 'Paste your CV content here...',
+                analysis_mode: 'Analysis mode', analysis_mode_desc: 'Choose between quick or AI analysis',
+                ai_analysis: 'Claude AI Analysis', ai_analysis_desc: 'Deeper analysis (requires API Key)',
+                api_placeholder: 'sk-ant-api03-...', analyze_btn: 'Analyze Profile',
+                job_title: 'Job Description', job_desc: 'Paste the job offer to compare',
+                job_placeholder: 'Paste the job description here...', back_btn: 'Back',
+                compare_btn: 'Analyze Fit', profile_score: 'Profile Score', fit_score: 'Job Fit Score',
+                executive_summary: '📋 Executive Summary', download_pdf: 'Download PDF',
+                how_calculated: 'How do we calculate your score?',
+                disclaimer_title: 'Important notice:', disclaimer_text: 'This evaluation is an approximation based on keyword analysis, competencies and experience. Results are indicative.',
+                competencies_title: 'Competencies', competencies_desc: 'Evaluation by areas',
+                swot_title: 'SWOT Analysis', swot_desc: 'Strengths, weaknesses, opportunities and threats',
+                strengths: 'Strengths', weaknesses: 'Weaknesses', opportunities: 'Opportunities', threats: 'Threats',
+                keywords_title: 'Keywords', keywords_desc: 'Matches with the job offer',
+                golden_keywords: 'Strategic keywords', found_keywords: 'Found', missing_keywords: 'Missing',
+                recommendations_title: 'Action Plan', recommendations_desc: 'Categorized strategic recommendations',
+                rec_training: 'Training & Languages', rec_certification: 'Certifications', rec_cv_improvement: 'CV Improvement',
+                consultancy_title: 'Need professional help?',
+                consultancy_desc: 'Take your profile to the next level with a personalized consulting session.',
+                feature_1: 'Expert CV review', feature_2: 'ATS optimization',
+                feature_3: 'Positioning strategy', feature_4: 'Interview preparation',
+                consultancy_btn: 'Request Consultancy', continue_phase2: 'Compare with job offer',
+                analyzing: 'Analyzing your profile...',
+                analyzing_semantic: 'Analyzing semantic patterns...',
+                analyzing_metrics: 'Calculating impact metrics...',
+                analyzing_competencies: 'Generating competency profile...',
+                scoring_experience: 'Experience', scoring_experience_desc: 'Years in sector',
+                scoring_technical: 'Technical', scoring_technical_desc: 'Technical keywords',
+                scoring_education: 'Education', scoring_education_desc: 'Degrees and certifications',
+                scoring_languages: 'Languages', scoring_languages_desc: 'Certified level',
+                scoring_leadership: 'Leadership', scoring_leadership_desc: 'Team management',
+                scoring_soft: 'Soft Skills', scoring_soft_desc: 'Interpersonal skills'
+            },
+            pt: {
+                hero_title: 'Analise seu perfil profissional',
+                hero_subtitle: 'Obtenha um diagnóstico detalhado do seu CV com recomendações estratégicas personalizadas',
+                phase1_title: 'Análise de Perfil', phase1_desc: 'Avalie seu CV',
+                phase2_title: 'Job Fit', phase2_desc: 'Compare com vagas',
+                context_title: 'Contexto profissional', context_desc: 'Selecione seu setor e indústria',
+                sector_label: 'Setor / Indústria',
+                sector_finance: 'Finanças / Banco', sector_tech: 'Tecnologia', sector_consulting: 'Consultoria',
+                sector_pmo: 'PMO / Projetos', sector_transformation: 'Transformação', sector_supply: 'Supply Chain',
+                sector_marketing: 'Marketing', sector_hr: 'RH', sector_legal: 'Jurídico',
+                sector_health: 'Saúde / Pharma', sector_general: 'Outro / Geral',
+                level_label: 'Nível profissional',
+                years_0_3: '0-3 anos', years_3_7: '3-7 anos', years_7_12: '7-12 anos', years_12_plus: '12+ anos',
+                cv_title: 'Currículo', cv_desc: 'Cole o conteúdo do seu CV',
+                load_example: 'Carregar exemplo', cv_placeholder: 'Cole o conteúdo do seu CV aqui...',
+                analysis_mode: 'Modo de análise', analysis_mode_desc: 'Escolha entre análise rápida ou com IA',
+                ai_analysis: 'Análise com Claude AI', ai_analysis_desc: 'Análise mais profunda (requer API Key)',
+                api_placeholder: 'sk-ant-api03-...', analyze_btn: 'Analisar Perfil',
+                job_title: 'Descrição da vaga', job_desc: 'Cole a oferta de emprego para comparar',
+                job_placeholder: 'Cole a descrição da vaga aqui...', back_btn: 'Voltar',
+                compare_btn: 'Analisar Adequação', profile_score: 'Pontuação do Perfil', fit_score: 'Adequação à Vaga',
+                executive_summary: '📋 Síntese Executiva', download_pdf: 'Baixar PDF',
+                how_calculated: 'Como calculamos sua pontuação?',
+                disclaimer_title: 'Aviso importante:', disclaimer_text: 'Esta avaliação é uma aproximação baseada em análise de palavras-chave, competências e experiência. Os resultados são indicativos.',
+                competencies_title: 'Competências', competencies_desc: 'Avaliação por áreas',
+                swot_title: 'Análise SWOT', swot_desc: 'Forças, fraquezas, oportunidades e ameaças',
+                strengths: 'Forças', weaknesses: 'Fraquezas', opportunities: 'Oportunidades', threats: 'Ameaças',
+                keywords_title: 'Palavras-Chave', keywords_desc: 'Correspondências com a vaga',
+                golden_keywords: 'Keywords estratégicas', found_keywords: 'Encontradas', missing_keywords: 'Ausentes',
+                recommendations_title: 'Plano de Ação', recommendations_desc: 'Recomendações estratégicas categorizadas',
+                rec_training: 'Formação & Idiomas', rec_certification: 'Certificações', rec_cv_improvement: 'Melhoria do CV',
+                consultancy_title: 'Precisa de ajuda profissional?',
+                consultancy_desc: 'Leve seu perfil ao próximo nível com uma sessão de consultoria personalizada.',
+                feature_1: 'Revisão especializada de CV', feature_2: 'Otimização ATS',
+                feature_3: 'Estratégia de posicionamento', feature_4: 'Preparação para entrevistas',
+                consultancy_btn: 'Solicitar Consultoria', continue_phase2: 'Comparar com vaga',
+                analyzing: 'Analisando seu perfil...',
+                analyzing_semantic: 'Analisando padrões semânticos...',
+                analyzing_metrics: 'Calculando métricas de impacto...',
+                analyzing_competencies: 'Gerando perfil de competências...',
+                scoring_experience: 'Experiência', scoring_experience_desc: 'Anos no setor',
+                scoring_technical: 'Técnico', scoring_technical_desc: 'Keywords técnicas',
+                scoring_education: 'Formação', scoring_education_desc: 'Diplomas e certificações',
+                scoring_languages: 'Idiomas', scoring_languages_desc: 'Nível certificado',
+                scoring_leadership: 'Liderança', scoring_leadership_desc: 'Gestão de equipes',
+                scoring_soft: 'Soft Skills', scoring_soft_desc: 'Habilidades interpessoais'
+            }
+        };
+
+        const competencyLabels = {
+            es: ['Experiencia', 'Técnico', 'Liderazgo', 'Soft Skills', 'Idiomas', 'Formación'],
+            en: ['Experience', 'Technical', 'Leadership', 'Soft Skills', 'Languages', 'Education'],
+            pt: ['Experiência', 'Técnico', 'Liderança', 'Soft Skills', 'Idiomas', 'Formação']
+        };
+
+        // ==================== SECTOR KEYWORDS (MULTIIDIOMA v7.1) ====================
+        const sectorKeywords = {
+            finance: ['swift', 'sepa', 'iso20022', 'pagos', 'payments', 'pagamentos', 'banking', 'banca', 'banco', 'psd2', 'compliance', 'riesgo', 'risk', 'risco', 'treasury', 'tesorería', 'tesouraria', 'trading', 'fintech', 'aml', 'kyc', 'instant', 'dora', 'cbpr'],
+            tech: ['software', 'desarrollo', 'development', 'desenvolvimento', 'programming', 'agile', 'scrum', 'devops', 'cloud', 'aws', 'azure', 'python', 'javascript', 'api', 'microservices', 'kubernetes', 'ci/cd', 'java', 'react'],
+            consulting: ['estrategia', 'strategy', 'estratégia', 'consulting', 'consultoria', 'análisis', 'analysis', 'análise', 'due diligence', 'business case', 'stakeholder', 'transformation', 'cambio', 'change', 'mudança', 'roadmap'],
+            pmo: ['pmo', 'project management', 'gestión de proyectos', 'gestão de projetos', 'portfolio', 'programa', 'program', 'pmp', 'prince2', 'pmbok', 'ms project', 'jira', 'gantt', 'wbs', 'stakeholder', 'scope', 'risk', 'budget', 'milestone', 'sprint', 'backlog'],
+            transformation: ['transformación', 'transformation', 'transformação', 'change management', 'gestión del cambio', 'gestão de mudanças', 'reingeniería', 'digitalización', 'digitalização', 'bpm', 'lean', 'six sigma', 'kaizen', 'agile', 'roadmap', 'as-is', 'to-be', 'kpi', 'dashboard'],
+            supply: ['supply chain', 'cadeia de suprimentos', 'cadena de suministro', 'logística', 'logistics', 'procurement', 'compras', 'inventario', 'inventory', 'inventário', 'warehouse', 'almacén', 'armazém', 'transporte', 'transport', 'distribución', 'distribuição', 'distribution', 'erp', 'sap', 'oracle', 'mrp', 's&op', 'demand planning', 'forecasting', 'lean', 'just in time', 'jit', 'otif', 'fill rate', 'drp', 'abastecimento', 'ruptura', 'estoque', 'cd', 'centro de distribuição'],
+            marketing: ['branding', 'digital marketing', 'marketing digital', 'seo', 'sem', 'social media', 'redes sociales', 'mídias sociais', 'content', 'analytics', 'campaign', 'roi', 'engagement', 'leads'],
+            hr: ['talento', 'talent', 'recruiting', 'reclutamiento', 'recrutamento', 'onboarding', 'desarrollo', 'development', 'desenvolvimento', 'performance', 'desempenho', 'engagement', 'cultura', 'culture', 'compensación', 'compensação', 'formación', 'formação', 'training'],
+            legal: ['compliance', 'cumplimiento', 'conformidade', 'regulación', 'regulação', 'normativa', 'legal', 'contratos', 'contracts', 'rgpd', 'gdpr', 'lgpd', 'audit', 'auditoría', 'auditoria', 'riesgo', 'risco', 'governance'],
+            health: ['pharma', 'farmacêutico', 'clinical', 'clínico', 'regulatory', 'fda', 'ema', 'anvisa', 'medical', 'médico', 'healthcare', 'saúde', 'salud', 'trials', 'gmp', 'patient', 'paciente'],
+            general: ['gestión', 'management', 'gestão', 'proyecto', 'project', 'projeto', 'equipo', 'team', 'equipe', 'liderazgo', 'leadership', 'liderança', 'resultados', 'results', 'kpi', 'strategy', 'estrategia', 'estratégia']
+        };
+
+        // ==================== UI FUNCTIONS ====================
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent === lang.toUpperCase()));
+            updateTranslations();
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang][key]) el.placeholder = translations[currentLang][key];
+            });
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', currentTheme === 'dark' ? 'dark' : '');
+            document.querySelector('.theme-toggle').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function goToPhase(phase) {
+            document.querySelectorAll('.phase-tab').forEach((tab, i) => tab.classList.toggle('active', i + 1 === phase));
+            document.querySelectorAll('.panel').forEach((panel, i) => panel.classList.toggle('active', i + 1 === phase));
+        }
+
+        function selectSector(el) {
+            document.querySelectorAll('.sector-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            selectedSector = el.dataset.sector;
+            checkReady();
+        }
+
+        function selectLevel(el) {
+            document.querySelectorAll('.level-pill').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            selectedLevel = el.dataset.level;
+            checkReady();
+        }
+
+        function toggleAI() {
+            useAI = !useAI;
+            document.getElementById('aiToggle').classList.toggle('active', useAI);
+            document.getElementById('apiInput').classList.toggle('visible', useAI);
+            checkReady();
+        }
+
+        function toggleScoreExplanation() {
+            document.getElementById('scoreExplanation').classList.toggle('expanded');
+        }
+
+        function checkReady() {
+            const cvText = document.getElementById('cvInput').value.trim();
+            const jobText = document.getElementById('jobInput').value.trim();
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const phase1Ready = cvText.length > 50 && selectedSector && selectedLevel && (!useAI || apiKey.length > 10);
+            document.getElementById('analyzeBtn').disabled = !phase1Ready;
+            document.getElementById('compareFitBtn').disabled = jobText.length < 50;
+        }
+
+        document.getElementById('cvInput').addEventListener('input', function() {
+            document.getElementById('cvCharCount').textContent = this.value.length;
+            checkReady();
+        });
+
+        document.getElementById('jobInput').addEventListener('input', function() {
+            document.getElementById('jobCharCount').textContent = this.value.length;
+            checkReady();
+        });
+
+        document.getElementById('apiKey').addEventListener('input', checkReady);
+
+        function loadExampleCV() {
+            const exampleCV = `KELLY ALVES
+SUPPLY CHAIN & GESTÃO DE MUDANÇAS
+São Paulo, SP | +55 11 9.4148-8470 | olimadcam@gmail.com
+
+PERFIL EXECUTIVO
+Profissional com +19 anos de experiência integrando Supply Chain Management e Gestão de Mudanças, unindo excelência operacional com capacidade de liderar transformações organizacionais. Especialista em otimização de cadeia de suprimentos com visão estratégica de change management. Trajetória internacional comprovada em 6 países (Espanha, México, Panamá, Peru, Paraguai, Chile). Certificada em Six Sigma Green Belt, ISO 9001, PDCA e 5S.
+
+ÁREAS DE EXPERTISE
+Supply Chain: Demand Planning, S&OP, Forecasting, Gestão de Estoques, Fill Rate, OTIF, DRP
+Operações: Centros de Distribuição, Coordenação Multisite, Abastecimento de Lojas
+Sistemas: SAP, Oracle, ERP/MRP, Power BI, Excel Avançado
+Change Management: Mitigação de Resistências, Métricas de Adoção, Change Readiness
+Engajamento: Stakeholder Management, Planos de Comunicação, Treinamento, Workshops
+Melhoria Contínua: Six Sigma Green Belt, PDCA, 5S, Kaizen, ISO 9001
+
+EXPERIÊNCIA
+Especialista em Supply Chain | Fast Shop S/A | 2014 - 2025 (11 anos)
+- Planejamento e abastecimento estratégico de utilidades domésticas e produtos digitais
+- Coordenação logística integrada entre filiais, compras, CDs e fornecedores externos
+- Gestão e parametrização de sistemas ERP/MRP (SAP) para otimização
+- Implementação de novos processos com gestão da mudança e adoção pelas equipes
+- Planejamento e estruturação logística para abertura de novas lojas
+
+Consultora de Gestão de Mudanças | London Consulting Group | 2013
+- Atuação em 6 países: Espanha, México, Panamá, Peru, Paraguai, Chile
+- Estratégias de mitigação de resistências
+- Planos de comunicação e treinamento
+- Métricas de mudança e adoção tecnológica
+
+Analista Comercial | Bionor Transformación S.A | Espanha | 2008 - 2012
+Analista Comercial | Submarino (E-commerce) | Brasil | 2001 - 2004
+
+FORMAÇÃO
+Extensão Universitária em Gestão Empresarial | Universidade de Barcelona
+
+CERTIFICAÇÕES
+Six Sigma Yellow Belt & Green Belt | ISO 9001 | PDCA | 5S | Change Management | DRP
+
+IDIOMAS
+Português: Nativo | Espanhol: C2 Fluente | Inglês: B1 Intermediário`;
+
+            document.getElementById('cvInput').value = exampleCV;
+            document.getElementById('cvCharCount').textContent = exampleCV.length;
+            checkReady();
+        }
+
+        function loadExampleJob() {
+            const exampleJob = `Senior Manager Banking Operations
+N26 - Madrid, España
+
+About The Opportunity:
+We are looking for a Banking Operations Senior Manager with experience in delivering operations excellence on a global scale.
+
+In Your Next Challenge, You Will:
+- Lead and develop a team of dedicated professionals
+- Co-create and implement the strategy for the department
+- Ensure teams and stakeholders are aligned for new product/market launches
+- Improve end-to-end process effectiveness and efficiency
+- Responsible for service delivery and governance with outsourcing partners
+- Proactively identify, prioritise and manage key projects
+- Drive change management and challenge the status quo
+- Apply data-driven approach to develop key metrics
+- Represent the voice of the customer
+
+What You'll Need:
+- 3+ years proven experience as a leader in European Banking Operations
+- Track record of building and leading high-performing operations teams
+- Experience in process optimization, regulatory compliance and risk management
+- Strong analytical mindset and data-driven decision making
+- Stakeholder management skills at all levels
+- English language fluency (C1 minimum)
+- Customer-oriented mindset and strong delivery mentality
+
+What's In It For You:
+- Accelerate career growth at Europe's leading digital bank
+- Competitive benefits and personal development budget
+- High degree of autonomy and access to cutting edge technologies`;
+
+            document.getElementById('jobInput').value = exampleJob;
+            document.getElementById('jobCharCount').textContent = exampleJob.length;
+            checkReady();
+        }
+
+        // ==================== ANALYSIS ENGINE v7.1 ====================
+        function extractYears(text) {
+            const textLower = text.toLowerCase();
+            const patterns = [
+                /(\d+)\+?\s*(años|years|anos|ans)\s*(de\s*)?(experiencia|experience|experiência)?/i,
+                /(más de|more than|mais de|over)\s*(\d+)\s*(años|years|anos)/i,
+                /experiencia\s*(de\s*)?(\d+)\s*(años|years|anos)/i
+            ];
+            for (const pattern of patterns) {
+                const match = textLower.match(pattern);
+                if (match) {
+                    const num = match.find((m, i) => i > 0 && !isNaN(parseInt(m)));
+                    if (num) return parseInt(num);
+                }
+            }
+            const textNumbers = { 'uno': 1, 'one': 1, 'um': 1, 'dos': 2, 'two': 2, 'dois': 2, 'tres': 3, 'three': 3, 'três': 3, 'cinco': 5, 'five': 5, 'diez': 10, 'ten': 10, 'dez': 10, 'quince': 15, 'fifteen': 15, 'quinze': 15, 'veinte': 20, 'twenty': 20, 'vinte': 20 };
+            for (const [word, num] of Object.entries(textNumbers)) {
+                if (new RegExp(`${word}\\s*(años|years|anos)`, 'i').test(textLower)) return num;
+            }
+            const dateRanges = textLower.match(/(\d{4})\s*[-–]\s*(\d{4}|presente|present|actual|atualmente|currently)/gi);
+            if (dateRanges && dateRanges.length > 0) {
+                let totalYears = 0;
+                const currentYear = new Date().getFullYear();
+                dateRanges.forEach(range => {
+                    const years = range.match(/\d{4}/g);
+                    if (years && years.length >= 1) {
+                        const startYear = parseInt(years[0]);
+                        const endYear = years.length > 1 ? parseInt(years[1]) : currentYear;
+                        totalYears += (endYear - startYear);
+                    }
+                });
+                if (totalYears > 0) return Math.min(totalYears, 35);
+            }
+            return 5;
+        }
+
+        function analyzeWithRules(cv, job) {
+            const cvLower = cv.toLowerCase();
+            const sector = selectedSector || 'general';
+            const keywords = sectorKeywords[sector] || sectorKeywords.general;
+            
+            const foundKeywords = keywords.filter(kw => cvLower.includes(kw.toLowerCase()));
+            const keywordScore = Math.min(100, (foundKeywords.length / keywords.length) * 140);
+            
+            const years = extractYears(cv);
+            let experienceBase;
+            if (years >= 20) experienceBase = 95;
+            else if (years >= 15) experienceBase = 88;
+            else if (years >= 12) experienceBase = 82;
+            else if (years >= 10) experienceBase = 76;
+            else if (years >= 8) experienceBase = 70;
+            else if (years >= 6) experienceBase = 62;
+            else if (years >= 4) experienceBase = 54;
+            else if (years >= 2) experienceBase = 44;
+            else experienceBase = 35;
+            
+            let certBonus = 0;
+            if (/\b(pmp|prince2)\b/i.test(cv)) certBonus += 1;
+            if (/\b(safe|scrum master)\b/i.test(cv)) certBonus += 1;
+            if (/\b(itil|togaf)\b/i.test(cv)) certBonus += 1;
+            certBonus = Math.min(certBonus, 3);
+            const experienceScore = Math.min(98, experienceBase + certBonus);
+            
+            let educationBase = 35;
+            if (/\b(mba|máster|master|mestrado)\b/i.test(cv)) educationBase += 25;
+            if (/\b(licenciatura|bachelor|grado|graduação)\b/i.test(cv)) educationBase += 15;
+            if (/\b(doctorado|phd|doutorado)\b/i.test(cv)) educationBase += 20;
+            if (/\b(extensão|extensión|extension|pós-graduação)\b/i.test(cv)) educationBase += 12;
+            if (/esade|iese|ie business|harvard|stanford|mit|insead/i.test(cv)) educationBase += 8;
+            let eduCertBonus = 0;
+            if (/\b(pmp|prince2)\b/i.test(cv)) eduCertBonus += 2;
+            if (/\b(lean|six sigma|green belt|black belt)\b/i.test(cv)) eduCertBonus += 3;
+            if (/\b(iso\s*9001|pdca|5s|kaizen)\b/i.test(cv)) eduCertBonus += 2;
+            eduCertBonus = Math.min(eduCertBonus, 5);
+            const educationScore = Math.min(95, educationBase + eduCertBonus);
+            
+            const hasC1C2 = /\b(c1|c2|nativo|native|fluent|bilingüe|bilingual|fluente)\b/i.test(cv);
+            const hasB2 = /\bb2\b/i.test(cv);
+            const hasB1 = /\bb1\b/i.test(cv);
+            const langCount = (cv.match(/\b(inglés|english|inglês|francés|french|francês|alemán|german|alemão|português|portuguese|italiano|italian|chino|chinese|chinês|español|spanish|espanhol)\b/gi) || []).length;
+            let languageScore = 30;
+            if (hasC1C2) languageScore += 40;
+            else if (hasB2) languageScore += 25;
+            else if (hasB1) languageScore += 15;
+            languageScore += Math.min(30, langCount * 8);
+            languageScore = Math.min(100, languageScore);
+            
+            const leaderKeywords = ['líder', 'manager', 'director', 'coordinador', 'jefe', 'responsable', 'supervisor', 'gestión de equipos', 'leader', 'coordinator', 'head', 'team lead', 'people management', 'gerente', 'diretor', 'coordenador', 'chefe', 'gestão de equipes', 'liderança', 'liderazgo', 'leadership'];
+            const leaderFound = leaderKeywords.filter(k => cvLower.includes(k.toLowerCase())).length;
+            const leadershipScore = Math.min(100, 25 + leaderFound * 8);
+            
+            const softKeywords = ['comunicación', 'negociación', 'resolución', 'colaboración', 'adaptabilidad', 'liderazgo', 'trabajo en equipo', 'pensamiento crítico', 'creatividad', 'empatía', 'gestión del tiempo', 'toma de decisiones', 'influencia', 'presentación', 'facilitación', 'communication', 'negotiation', 'problem solving', 'collaboration', 'adaptability', 'leadership', 'teamwork', 'critical thinking', 'creativity', 'empathy', 'time management', 'decision making', 'comunicação', 'negociação', 'resolução', 'colaboração', 'adaptabilidade', 'liderança', 'trabalho em equipe', 'pensamento crítico', 'criatividade', 'gestão do tempo', 'tomada de decisão', 'gestão de conflitos', 'stakeholder', 'engagement', 'workshop', 'coaching', 'mentoring', 'customer', 'treinamento', 'training', 'formación'];
+            const softFound = softKeywords.filter(k => cvLower.includes(k.toLowerCase())).length;
+            const softScore = Math.min(100, 30 + softFound * 8);
+
+            const scores = {
+                experience: Math.round(experienceScore),
+                technical: Math.round(keywordScore),
+                leadership: Math.round(leadershipScore),
+                soft: Math.round(softScore),
+                languages: Math.round(languageScore),
+                education: Math.round(educationScore)
+            };
+            
+            const avgScore = Math.round(Object.values(scores).reduce((a,b) => a+b, 0) / 6);
+
+            lastAnalysisScoring = { years, foundKeywords, totalKeywords: keywords.length, softFound, leaderFound };
+
+            const swot = generateSWOT(scores, cvLower);
+            const recommendations = generateRecommendations(scores, cvLower);
+            const synthesis = generateSynthesis(scores, swot, years);
+            
+            return { score: avgScore, competencies: scores, swot, recommendations, synthesis, mode: 'rules' };
+        }
+
+        function analyzeJobFitWithRules(cv, job) {
+            const cvLower = cv.toLowerCase();
+            const jobLower = job.toLowerCase();
+            const allKeywords = Object.values(sectorKeywords).flat();
+            const jobKeywords = allKeywords.filter(kw => jobLower.includes(kw.toLowerCase()));
+            const foundInCV = jobKeywords.filter(kw => cvLower.includes(kw.toLowerCase()));
+            const missingInCV = jobKeywords.filter(kw => !cvLower.includes(kw.toLowerCase()));
+            const keywordMatchScore = jobKeywords.length > 0 ? Math.round((foundInCV.length / jobKeywords.length) * 100) : 50;
+            
+            const jobYears = extractYears(job);
+            const cvYears = extractYears(cv);
+            let requirementsScore = 50;
+            if (cvYears >= jobYears) requirementsScore += 25;
+            else if (cvYears >= jobYears * 0.7) requirementsScore += 10;
+            else requirementsScore -= 10;
+            
+            if (jobLower.includes('english') || jobLower.includes('inglés') || jobLower.includes('inglês')) {
+                if (/\b(c1|c2|fluent|nativo|bilingual)\b/i.test(cv)) requirementsScore += 15;
+                else if (/\bb2\b/i.test(cv)) requirementsScore += 5;
+                else requirementsScore -= 8;
+            }
+            
+            const certs = ['pmp', 'prince2', 'six sigma', 'scrum', 'safe', 'itil', 'aws', 'azure', 'lean'];
+            certs.forEach(cert => { if (jobLower.includes(cert) && cvLower.includes(cert)) requirementsScore += 4; });
+            requirementsScore = Math.max(20, Math.min(100, requirementsScore));
+            
+            const fitScore = Math.round((keywordMatchScore * 0.55) + (requirementsScore * 0.45));
+            const goldenKeywords = jobKeywords.slice(0, 8);
+            const baseResult = analyzeWithRules(cv, null);
+            
+            const fitSynthesis = {
+                es: `Adecuación del ${fitScore}% al puesto. ${foundInCV.length > 0 ? `Se detectaron ${foundInCV.length} keywords coincidentes.` : ''} ${missingInCV.length > 0 ? `Faltan ${missingInCV.length} keywords importantes: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'La experiencia cumple los requisitos.' : `La experiencia (${cvYears} años) está por debajo de lo requerido (${jobYears} años).`}`,
+                en: `${fitScore}% fit with the position. ${foundInCV.length > 0 ? `${foundInCV.length} matching keywords detected.` : ''} ${missingInCV.length > 0 ? `Missing ${missingInCV.length} important keywords: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'Experience meets requirements.' : `Experience (${cvYears} years) is below required (${jobYears} years).`}`,
+                pt: `Adequação de ${fitScore}% à vaga. ${foundInCV.length > 0 ? `${foundInCV.length} keywords correspondentes detectadas.` : ''} ${missingInCV.length > 0 ? `Faltam ${missingInCV.length} keywords importantes: ${missingInCV.slice(0,3).join(', ')}.` : ''} ${cvYears >= jobYears ? 'A experiência atende aos requisitos.' : `A experiência (${cvYears} anos) está abaixo do requerido (${jobYears} anos).`}`
+            };
+            
+            return {
+                score: fitScore,
+                competencies: baseResult.competencies,
+                swot: baseResult.swot,
+                recommendations: baseResult.recommendations,
+                synthesis: fitSynthesis[currentLang] || fitSynthesis.es,
+                keywords: { golden: goldenKeywords, found: foundInCV.slice(0, 12), missing: missingInCV.slice(0, 10) },
+                mode: 'rules'
+            };
+        }
+
+        function generateSWOT(scores, cvLower) {
+            const swot = { strengths: [], weaknesses: [], opportunities: [], threats: [] };
+            const t = {
+                es: { exp_solid: 'Trayectoria profesional consolidada', tech_strong: 'Sólida especialización técnica', leader_proven: 'Liderazgo de equipos demostrado', edu_strong: 'Formación académica destacada', lang_improve: 'Certificaciones de idiomas mejorables (C1/C2 recomendable)', no_pm_cert: 'Sin certificaciones de gestión de proyectos (PMP/PRINCE2)', no_lean: 'Metodología Lean/Six Sigma no detectada', soft_improve: 'Soft skills podrían destacarse más', no_intl: 'Exposición internacional limitada visible', quantify: 'El CV podría incluir más logros cuantificados', digital_demand: 'Demanda de transformación digital en crecimiento', regulation: 'Nuevas regulaciones crean demanda de expertos', leadership_ready: 'Perfil apto para posiciones de dirección', competition: 'Competencia creciente de perfiles especializados', tech_change: 'Cambios tecnológicos exigen formación continua', obsolescence: 'Riesgo de obsolescencia técnica' },
+                en: { exp_solid: 'Solid professional track record', tech_strong: 'Strong technical expertise', leader_proven: 'Proven team leadership', edu_strong: 'Strong academic background', lang_improve: 'Language certifications could be strengthened (C1/C2 recommended)', no_pm_cert: 'No project management certifications detected (PMP/PRINCE2)', no_lean: 'No Lean/Six Sigma methodology mentioned', soft_improve: 'Soft skills could be better highlighted', no_intl: 'Limited international exposure visible', quantify: 'CV could include more quantified achievements', digital_demand: 'Digital transformation demand is growing', regulation: 'New regulations create expert demand', leadership_ready: 'Profile suitable for leadership roles', competition: 'Increasing competition from specialized profiles', tech_change: 'Rapid technological changes require continuous learning', obsolescence: 'Risk of technical obsolescence' },
+                pt: { exp_solid: 'Trajetória profissional consolidada', tech_strong: 'Forte expertise técnica', leader_proven: 'Liderança de equipes comprovada', edu_strong: 'Formação acadêmica destacada', lang_improve: 'Certificações de idiomas podem ser fortalecidas (C1/C2 recomendado)', no_pm_cert: 'Certificações de gestão de projetos não detectadas (PMP/PRINCE2)', no_lean: 'Metodologia Lean/Six Sigma não mencionada', soft_improve: 'Soft skills poderiam ser melhor destacadas', no_intl: 'Exposição internacional limitada visível', quantify: 'CV poderia incluir mais conquistas quantificadas', digital_demand: 'Demanda por transformação digital em crescimento', regulation: 'Novas regulações criam demanda por especialistas', leadership_ready: 'Perfil adequado para cargos de liderança', competition: 'Concorrência crescente de perfis especializados', tech_change: 'Mudanças tecnológicas rápidas exigem aprendizado contínuo', obsolescence: 'Risco de obsolescência técnica' }
+            };
+            const lang = t[currentLang] || t.es;
+            
+            if (scores.experience >= 70) swot.strengths.push(lang.exp_solid);
+            if (scores.technical >= 70) swot.strengths.push(lang.tech_strong);
+            if (scores.leadership >= 70) swot.strengths.push(lang.leader_proven);
+            if (scores.education >= 75) swot.strengths.push(lang.edu_strong);
+            
+            if (scores.languages < 80) swot.weaknesses.push(lang.lang_improve);
+            if (!/\b(pmp|prince2|safe)\b/i.test(cvLower)) swot.weaknesses.push(lang.no_pm_cert);
+            if (!/\b(lean|six sigma)\b/i.test(cvLower)) swot.weaknesses.push(lang.no_lean);
+            if (scores.soft < 65) swot.weaknesses.push(lang.soft_improve);
+            if (!/\b(internacional|international|global)\b/i.test(cvLower)) swot.weaknesses.push(lang.no_intl);
+            if (swot.weaknesses.length < 2) swot.weaknesses.push(lang.quantify);
+            
+            swot.opportunities.push(lang.digital_demand);
+            swot.opportunities.push(lang.regulation);
+            if (scores.experience >= 60) swot.opportunities.push(lang.leadership_ready);
+            
+            swot.threats.push(lang.competition);
+            swot.threats.push(lang.tech_change);
+            if (scores.technical < 70) swot.threats.push(lang.obsolescence);
+            
+            return swot;
+        }
+
+        function generateRecommendations(scores, cvLower) {
+            const recommendations = { training: [], certification: [], cv_improvement: [] };
+            const t = {
+                es: { c1_title: 'Obtener certificación C1 de inglés', c1_desc: 'Muchas posiciones senior exigen nivel C1 certificado. Considera Cambridge, IELTS o TOEFL', tech_title: 'Formación técnica adicional', tech_desc: 'Considera cursos de análisis de datos, Power BI o herramientas específicas del sector', pmp_title: 'Certificación PMP o PRINCE2', pmp_desc: 'Esencial para roles senior de gestión de proyectos. PMP es reconocido globalmente', lean_title: 'Lean Six Sigma Green Belt', lean_desc: 'Aporta valor para roles de optimización y transformación de procesos', agile_title: 'Certificación Agile/Scrum', agile_desc: 'SAFe o Scrum Master demuestra expertise en metodologías ágiles', quantify_title: 'Cuantificar todos los logros', quantify_desc: 'Añadir métricas específicas: presupuestos (€), tamaños de equipo, % de mejoras, ROI', soft_title: 'Destacar soft skills con ejemplos', soft_desc: 'Incluir ejemplos concretos de liderazgo, negociación, resolución de conflictos', ats_title: 'Optimización ATS', ats_desc: 'Asegura que tu CV pase los sistemas de filtrado automático con formato y keywords adecuados' },
+                en: { c1_title: 'Obtain C1 English certification', c1_desc: 'Many senior positions require certified C1 level. Consider Cambridge, IELTS or TOEFL', tech_title: 'Technical upskilling', tech_desc: 'Consider courses in data analytics, Power BI, or sector-specific tools', pmp_title: 'PMP or PRINCE2 certification', pmp_desc: 'Essential for senior project management roles. PMP is globally recognized', lean_title: 'Lean Six Sigma Green Belt', lean_desc: 'Adds value for process optimization and transformation roles', agile_title: 'Agile/Scrum certification', agile_desc: 'SAFe or Scrum Master certification demonstrates agile expertise', quantify_title: 'Quantify all achievements', quantify_desc: 'Add specific metrics: budgets (€), team sizes, % improvements, ROI', soft_title: 'Highlight soft skills with examples', soft_desc: 'Include concrete examples of leadership, negotiation, conflict resolution', ats_title: 'ATS optimization', ats_desc: 'Ensure your CV passes automated screening systems with proper formatting and keywords' },
+                pt: { c1_title: 'Obter certificação C1 de inglês', c1_desc: 'Muitas posições seniores exigem nível C1 certificado. Considere Cambridge, IELTS ou TOEFL', tech_title: 'Capacitação técnica', tech_desc: 'Considere cursos de análise de dados, Power BI ou ferramentas específicas do setor', pmp_title: 'Certificação PMP ou PRINCE2', pmp_desc: 'Essencial para cargos seniores de gestão de projetos. PMP é reconhecido globalmente', lean_title: 'Lean Six Sigma Green Belt', lean_desc: 'Agrega valor para cargos de otimização e transformação de processos', agile_title: 'Certificação Agile/Scrum', agile_desc: 'SAFe ou Scrum Master demonstra expertise em metodologias ágeis', quantify_title: 'Quantificar todas as conquistas', quantify_desc: 'Adicionar métricas específicas: orçamentos (€), tamanho de equipes, % de melhorias, ROI', soft_title: 'Destacar soft skills com exemplos', soft_desc: 'Incluir exemplos concretos de liderança, negociação, resolução de conflitos', ats_title: 'Otimização ATS', ats_desc: 'Garanta que seu CV passe pelos sistemas de triagem automatizados' }
+            };
+            const lang = t[currentLang] || t.es;
+            
+            if (scores.languages < 80) recommendations.training.push({ priority: 'high', title: lang.c1_title, description: lang.c1_desc });
+            if (scores.technical < 75) recommendations.training.push({ priority: 'medium', title: lang.tech_title, description: lang.tech_desc });
+            if (!/\b(pmp|prince2)\b/i.test(cvLower)) recommendations.certification.push({ priority: 'high', title: lang.pmp_title, description: lang.pmp_desc });
+            if (!/\b(lean|six sigma)\b/i.test(cvLower)) recommendations.certification.push({ priority: 'medium', title: lang.lean_title, description: lang.lean_desc });
+            if (!/\b(safe|scrum|agile)\b/i.test(cvLower)) recommendations.certification.push({ priority: 'low', title: lang.agile_title, description: lang.agile_desc });
+            recommendations.cv_improvement.push({ priority: 'high', title: lang.quantify_title, description: lang.quantify_desc });
+            if (scores.soft < 70) recommendations.cv_improvement.push({ priority: 'medium', title: lang.soft_title, description: lang.soft_desc });
+            recommendations.cv_improvement.push({ priority: 'medium', title: lang.ats_title, description: lang.ats_desc });
+            
+            return recommendations;
+        }
+
+        function generateSynthesis(scores, swot, years) {
+            const avgScore = Math.round(Object.values(scores).reduce((a,b) => a+b, 0) / 6);
+            const sectorName = { finance: { es: 'financiero', en: 'financial', pt: 'financeiro' }, tech: { es: 'tecnológico', en: 'technology', pt: 'tecnológico' }, supply: { es: 'supply chain', en: 'supply chain', pt: 'supply chain' }, transformation: { es: 'transformación', en: 'transformation', pt: 'transformação' }, general: { es: 'especializado', en: 'specialized', pt: 'especializado' } };
+            const sector = sectorName[selectedSector]?.[currentLang] || sectorName.general[currentLang];
+            const templates = {
+                es: `Perfil sólido con ${years} años de experiencia progresiva en el sector ${sector}. ${scores.technical >= 70 ? 'Destaca por su expertise técnica' : 'Presenta competencias técnicas en desarrollo'}. ${swot.weaknesses.length > 0 ? `Áreas de mejora identificadas: ${swot.weaknesses[0].toLowerCase()}.` : ''} ${avgScore >= 75 ? 'Perfil competitivo para posiciones senior.' : 'Con las mejoras indicadas, el perfil puede alcanzar mayor competitividad.'}`,
+                en: `Solid profile with ${years} years of progressive experience in the ${sector} sector. ${scores.technical >= 70 ? 'Stands out for technical expertise' : 'Shows developing technical competencies'}. ${swot.weaknesses.length > 0 ? `Areas for improvement: ${swot.weaknesses[0].toLowerCase()}.` : ''} ${avgScore >= 75 ? 'Competitive profile for senior positions.' : 'With indicated improvements, the profile can achieve greater competitiveness.'}`,
+                pt: `Perfil sólido com ${years} anos de experiência progressiva no setor de ${sector}. ${scores.technical >= 70 ? 'Destaca-se pela expertise técnica' : 'Apresenta competências técnicas em desenvolvimento'}. ${swot.weaknesses.length > 0 ? `Áreas de melhoria identificadas: ${swot.weaknesses[0].toLowerCase()}.` : ''} ${avgScore >= 75 ? 'Perfil competitivo para posições seniores.' : 'Com as melhorias indicadas, o perfil pode alcançar maior competitividade.'}`
+            };
+            return templates[currentLang] || templates.es;
+        }
+
+        // ==================== ANALYSIS FUNCTIONS (con truco psicológico) ====================
+        async function analyzeProfile() {
+            const cv = document.getElementById('cvInput').value;
+            const overlay = document.getElementById('loadingOverlay');
+            const spinnerMsg = document.getElementById('loadingMessage');
+            
+            overlay.classList.add('visible');
+            
+            try {
+                let result;
+                if (useAI) {
+                    spinnerMsg.textContent = translations[currentLang].analyzing + " (AI Mode)";
+                    const apiKey = document.getElementById('apiKey').value;
+                    result = await analyzeWithAI(cv, null, apiKey);
+                } else {
+                    // TRUCO PSICOLÓGICO: Retraso artificial para dar sensación de procesamiento profundo
+                    spinnerMsg.textContent = translations[currentLang].analyzing_semantic || "Analizando patrones semánticos...";
+                    await new Promise(r => setTimeout(r, 800)); 
+                    spinnerMsg.textContent = translations[currentLang].analyzing_metrics || "Calculando métricas de impacto...";
+                    await new Promise(r => setTimeout(r, 800));
+                    spinnerMsg.textContent = translations[currentLang].analyzing_competencies || "Generando perfil competencial...";
+                    await new Promise(r => setTimeout(r, 600));
+                    
+                    result = analyzeWithRules(cv, null);
+                }
+                
+                lastAnalysisResult = result;
+                displayResults(result, false);
+                document.getElementById('tab1').classList.add('completed');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                overlay.classList.remove('visible');
+                setTimeout(() => { spinnerMsg.textContent = translations[currentLang].analyzing; }, 500);
+            }
+        }
+
+        async function analyzeJobFit() {
+            const cv = document.getElementById('cvInput').value;
+            const job = document.getElementById('jobInput').value;
+            const overlay = document.getElementById('loadingOverlay');
+            const spinnerMsg = document.getElementById('loadingMessage');
+            
+            overlay.classList.add('visible');
+            
+            try {
+                let result;
+                if (useAI) {
+                    spinnerMsg.textContent = translations[currentLang].analyzing + " (AI Mode)";
+                    const apiKey = document.getElementById('apiKey').value;
+                    result = await analyzeWithAI(cv, job, apiKey);
+                } else {
+                    spinnerMsg.textContent = translations[currentLang].analyzing_semantic || "Analizando patrones semánticos...";
+                    await new Promise(r => setTimeout(r, 600));
+                    spinnerMsg.textContent = "Comparando con requisitos del puesto...";
+                    await new Promise(r => setTimeout(r, 800));
+                    spinnerMsg.textContent = "Calculando índice de adecuación...";
+                    await new Promise(r => setTimeout(r, 600));
+                    
+                    result = analyzeJobFitWithRules(cv, job);
+                }
+                
+                lastAnalysisResult = result;
+                displayResults(result, true);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                overlay.classList.remove('visible');
+                setTimeout(() => { spinnerMsg.textContent = translations[currentLang].analyzing; }, 500);
+            }
+        }
+
+        async function analyzeWithAI(cv, job, apiKey) {
+            const sector = selectedSector || 'general';
+            const level = selectedLevel || 'senior';
+            let prompt = `Analyze this CV for a ${level} professional in ${sector} sector.
+CV Content:
+${cv}
+
+${job ? `Job Description:\n${job}\n\nAnalyze CV-Job fit with specific keyword matching.` : 'Provide detailed profile analysis.'}
+
+CRITICAL: Always provide at least 3 realistic weaknesses. Be analytical and balanced.
+Language: ${currentLang === 'es' ? 'Spanish' : currentLang === 'pt' ? 'Portuguese' : 'English'}
+
+Respond ONLY in valid JSON:
+{"score":<0-100>,"competencies":{"experience":<0-100>,"technical":<0-100>,"leadership":<0-100>,"soft":<0-100>,"languages":<0-100>,"education":<0-100>},"swot":{"strengths":[3 items],"weaknesses":[at least 3],"opportunities":[2-3],"threats":[2-3]},"recommendations":{"training":[{"priority":"high|medium|low","title":"...","description":"..."}],"certification":[...],"cv_improvement":[...]}${job ? ',"keywords":{"golden":["..."],"found":["..."],"missing":["..."]}' : ''},"synthesis":"Executive summary paragraph"}`;
+
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+                body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 4000, messages: [{ role: 'user', content: prompt }] })
+            });
+
+            if (!response.ok) throw new Error('API error: ' + response.status);
+            const data = await response.json();
+            const jsonMatch = data.content[0].text.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) throw new Error('Could not parse response');
+            const result = JSON.parse(jsonMatch[0]);
+            result.mode = 'ai';
+            return result;
+        }
+
+        function displayResults(data, isJobFit) {
+            document.getElementById('resultsSection').classList.add('visible');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            
+            document.getElementById('mainScore').textContent = data.score + '%';
+            document.getElementById('scoreLabel').textContent = translations[currentLang][isJobFit ? 'fit_score' : 'profile_score'];
+            
+            const scoreLevel = data.score >= 80 ? 'success' : data.score >= 60 ? 'warning' : 'danger';
+            const scoreText = { success: { es: 'Excelente', en: 'Excellent', pt: 'Excelente' }, warning: { es: 'Bueno', en: 'Good', pt: 'Bom' }, danger: { es: 'A mejorar', en: 'Needs work', pt: 'A melhorar' } };
+            document.getElementById('scoreMeta').innerHTML = `<div class="meta-item"><span class="meta-dot ${scoreLevel}"></span><span>${scoreText[scoreLevel][currentLang]}</span></div><div class="meta-item"><span style="color: var(--text-muted);">${data.mode === 'ai' ? '🧠 Claude AI' : '⚡ Quick'}</span></div>`;
+            
+            updateScoringExplanation(data.competencies);
+            document.getElementById('summaryContent').innerHTML = `<p>${data.synthesis || generateSynthesis(data.competencies, data.swot, lastAnalysisScoring?.years || 5)}</p>`;
+            
+            const labels = competencyLabels[currentLang];
+            const compKeys = ['experience', 'technical', 'leadership', 'soft', 'languages', 'education'];
+            document.getElementById('competencyBars').innerHTML = compKeys.map((key, i) => {
+                const score = data.competencies[key];
+                const level = score >= 80 ? 'excellent' : score >= 65 ? 'good' : score >= 50 ? 'moderate' : 'low';
+                return `<div class="comp-item"><span class="comp-name">${labels[i]}</span><div class="comp-bar"><div class="comp-fill ${level}" style="width: ${score}%"></div></div><span class="comp-score">${score}%</span></div>`;
+            }).join('');
+            
+            updateRadar(data.competencies, labels);
+            
+            document.getElementById('strengths').innerHTML = data.swot.strengths.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('weaknesses').innerHTML = data.swot.weaknesses.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('opportunities').innerHTML = data.swot.opportunities.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('threats').innerHTML = data.swot.threats.map(s => `<li>${s}</li>`).join('');
+            
+            const keywordsCard = document.getElementById('keywordsCard');
+            if (isJobFit && data.keywords) {
+                keywordsCard.style.display = 'block';
+                document.getElementById('goldenKeywords').innerHTML = (data.keywords.golden || []).map(k => `<span class="keyword-tag golden">${k}</span>`).join('');
+                document.getElementById('foundKeywords').innerHTML = (data.keywords.found || []).map(k => `<span class="keyword-tag found">${k}</span>`).join('');
+                document.getElementById('missingKeywords').innerHTML = (data.keywords.missing || []).map(k => `<span class="keyword-tag missing">${k}</span>`).join('');
+            } else {
+                keywordsCard.style.display = 'none';
+            }
+            
+            displayCategorizedRecommendations(data.recommendations);
+            document.getElementById('continueToPhase2').style.display = isJobFit ? 'none' : 'flex';
+        }
+
+        function updateScoringExplanation(competencies) {
+            const t = translations[currentLang];
+            const factors = [
+                { icon: '💼', title: t.scoring_experience, desc: t.scoring_experience_desc, score: competencies.experience },
+                { icon: '🔧', title: t.scoring_technical, desc: t.scoring_technical_desc, score: competencies.technical },
+                { icon: '🎓', title: t.scoring_education, desc: t.scoring_education_desc, score: competencies.education },
+                { icon: '🌍', title: t.scoring_languages, desc: t.scoring_languages_desc, score: competencies.languages },
+                { icon: '👥', title: t.scoring_leadership, desc: t.scoring_leadership_desc, score: competencies.leadership },
+                { icon: '🤝', title: t.scoring_soft, desc: t.scoring_soft_desc, score: competencies.soft }
+            ];
+            document.getElementById('scoringFactors').innerHTML = factors.map(f => `<div class="scoring-factor"><div class="scoring-factor-icon">${f.icon}</div><div class="scoring-factor-text"><h5>${f.title}: ${f.score}%</h5><p>${f.desc}</p></div></div>`).join('');
+        }
+
+        function displayCategorizedRecommendations(recommendations) {
+            const t = translations[currentLang];
+            const categories = [
+                { key: 'training', icon: '📚', title: t.rec_training, class: 'training' },
+                { key: 'certification', icon: '🏅', title: t.rec_certification, class: 'certification' },
+                { key: 'cv_improvement', icon: '📝', title: t.rec_cv_improvement, class: 'cv-improvement' }
+            ];
+            let html = '';
+            categories.forEach(cat => {
+                const items = recommendations[cat.key] || [];
+                if (items.length > 0) {
+                    html += `<div class="rec-category"><div class="rec-category-header ${cat.class}"><div class="rec-category-icon">${cat.icon}</div><span class="rec-category-title">${cat.title}</span></div>${items.map(r => `<div class="recommendation-item"><div class="rec-priority ${r.priority}"></div><div class="rec-content"><h4>${r.title}</h4><p>${r.description}</p></div></div>`).join('')}</div>`;
+                }
+            });
+            document.getElementById('recommendations').innerHTML = html;
+        }
+
+        function updateRadar(competencies, labels) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            if (radarChart) radarChart.destroy();
+            const compKeys = ['experience', 'technical', 'leadership', 'soft', 'languages', 'education'];
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Profile',
+                        data: compKeys.map(k => competencies[k]),
+                        fill: true,
+                        backgroundColor: 'rgba(184, 134, 11, 0.15)',
+                        borderColor: '#b8860b',
+                        pointBackgroundColor: '#b8860b',
+                        pointBorderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { r: { angleLines: { color: currentTheme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }, grid: { color: currentTheme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }, pointLabels: { color: currentTheme === 'dark' ? '#a8a29e' : '#57534e', font: { size: 11 } }, ticks: { display: false }, suggestedMin: 0, suggestedMax: 100 } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // ==================== PDF GENERATION v7.1 ====================
+        function downloadPDFReport() {
+            if (!lastAnalysisResult) { alert('No hay análisis para descargar'); return; }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const data = lastAnalysisResult;
+            const date = new Date().toLocaleDateString(currentLang === 'en' ? 'en-US' : currentLang === 'pt' ? 'pt-BR' : 'es-ES');
+            
+            const gold = [184, 134, 11], copper = [160, 82, 45], darkGray = [28, 25, 23], mediumGray = [87, 83, 78], lightGray = [245, 245, 244], white = [255, 255, 255], success = [5, 150, 105], warning = [217, 119, 6], danger = [220, 38, 38];
+            
+            // Header
+            doc.setFillColor(...gold);
+            doc.rect(0, 0, 210, 36, 'F');
+            doc.setFillColor(...copper);
+            doc.rect(0, 32, 210, 4, 'F');
+            doc.setFillColor(...white);
+            doc.roundedRect(15, 8, 28, 20, 3, 3, 'F');
+            doc.setTextColor(...gold);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('RV', 29, 21, { align: 'center' });
+            doc.setTextColor(...white);
+            doc.setFontSize(20);
+            doc.text('Profile Studio', 50, 18);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Professional CV Analysis Report', 50, 26);
+            doc.setFontSize(8);
+            doc.text(`v7.1 | ${date}`, 175, 26);
+            
+            // Score
+            let y = 50;
+            doc.setFillColor(250, 250, 249);
+            doc.setDrawColor(...gold);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(15, y - 5, 180, 42, 4, 4, 'FD');
+            doc.setTextColor(...gold);
+            doc.setFontSize(52);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${data.score}%`, 105, y + 20, { align: 'center' });
+            doc.setTextColor(...mediumGray);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text(translations[currentLang].profile_score, 105, y + 32, { align: 'center' });
+            y += 52;
+            
+            // Radar
+            const radarCenterX = 60, radarCenterY = y + 40, radarRadius = 32;
+            const compKeys = ['experience', 'technical', 'leadership', 'soft', 'languages', 'education'];
+            const labels = competencyLabels[currentLang];
+            const values = compKeys.map(k => data.competencies[k]);
+            const angleStep = (Math.PI * 2) / 6;
+            
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.2);
+            for (let ring = 1; ring <= 5; ring++) {
+                const r = (radarRadius * ring) / 5;
+                for (let i = 0; i < 6; i++) {
+                    const angle1 = -Math.PI / 2 + angleStep * i;
+                    const angle2 = -Math.PI / 2 + angleStep * ((i + 1) % 6);
+                    doc.line(radarCenterX + Math.cos(angle1) * r, radarCenterY + Math.sin(angle1) * r, radarCenterX + Math.cos(angle2) * r, radarCenterY + Math.sin(angle2) * r);
+                }
+            }
+            
+            doc.setFontSize(7);
+            for (let i = 0; i < 6; i++) {
+                const angle = -Math.PI / 2 + angleStep * i;
+                doc.setDrawColor(200, 200, 200);
+                doc.setLineWidth(0.3);
+                doc.line(radarCenterX, radarCenterY, radarCenterX + Math.cos(angle) * radarRadius, radarCenterY + Math.sin(angle) * radarRadius);
+                doc.setTextColor(...mediumGray);
+                doc.text(labels[i], radarCenterX + Math.cos(angle) * (radarRadius + 10), radarCenterY + Math.sin(angle) * (radarRadius + 10), { align: 'center' });
+            }
+            
+            const points = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = -Math.PI / 2 + angleStep * i;
+                points.push({ x: radarCenterX + Math.cos(angle) * radarRadius * (values[i] / 100), y: radarCenterY + Math.sin(angle) * radarRadius * (values[i] / 100) });
+            }
+            
+            doc.setDrawColor(...gold);
+            doc.setLineWidth(1.5);
+            for (let i = 0; i < points.length; i++) {
+                const next = (i + 1) % points.length;
+                doc.line(points[i].x, points[i].y, points[next].x, points[next].y);
+            }
+            doc.setFillColor(...gold);
+            points.forEach(p => doc.circle(p.x, p.y, 1.5, 'F'));
+            
+            // Bars
+            const barsX = 115;
+            let barsY = y + 10;
+            compKeys.forEach((key, i) => {
+                const score = data.competencies[key];
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(...darkGray);
+                doc.text(labels[i], barsX, barsY);
+                doc.setFillColor(...lightGray);
+                doc.roundedRect(barsX, barsY + 2, 60, 5, 1, 1, 'F');
+                const barColor = score >= 80 ? success : score >= 65 ? gold : score >= 50 ? warning : danger;
+                doc.setFillColor(...barColor);
+                doc.roundedRect(barsX, barsY + 2, Math.max(score * 0.6, 2), 5, 1, 1, 'F');
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${score}%`, 182, barsY + 6);
+                barsY += 12;
+            });
+            
+            y = Math.max(radarCenterY + radarRadius + 20, barsY + 5);
+            
+            // Summary
+            doc.setDrawColor(...gold);
+            doc.setLineWidth(0.5);
+            doc.line(15, y, 195, y);
+            y += 8;
+            doc.setTextColor(...darkGray);
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(translations[currentLang].executive_summary.replace('📋 ', ''), 15, y);
+            y += 6;
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...mediumGray);
+            const summaryText = data.synthesis || document.getElementById('summaryContent').innerText;
+            const splitSummary = doc.splitTextToSize(summaryText, 175);
+            doc.text(splitSummary, 15, y);
+            y += splitSummary.length * 4 + 10;
+            
+            // SWOT
+            if (y > 190) { doc.addPage(); y = 20; }
+            doc.setTextColor(...darkGray);
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(translations[currentLang].swot_title, 15, y);
+            y += 8;
+            
+            const swotSections = [
+                { title: translations[currentLang].strengths, items: data.swot.strengths, color: success },
+                { title: translations[currentLang].weaknesses, items: data.swot.weaknesses, color: danger },
+                { title: translations[currentLang].opportunities, items: data.swot.opportunities, color: gold },
+                { title: translations[currentLang].threats, items: data.swot.threats, color: mediumGray }
+            ];
+            
+            const swotStartY = y;
+            const colWidth = 88;
+            swotSections.forEach((section, idx) => {
+                const col = idx % 2;
+                const row = Math.floor(idx / 2);
+                const boxX = 15 + col * (colWidth + 5);
+                let boxY = swotStartY + row * 45;
+                if (boxY > 250) { doc.addPage(); boxY = 20; }
+                doc.setFillColor(...section.color);
+                doc.rect(boxX, boxY, 3, 40, 'F');
+                doc.setTextColor(...section.color);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.text(section.title, boxX + 6, boxY + 5);
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'normal');
+                let itemY = boxY + 11;
+                section.items.slice(0, 3).forEach(item => {
+                    const splitItem = doc.splitTextToSize(`• ${item}`, colWidth - 10);
+                    doc.text(splitItem, boxX + 6, itemY);
+                    itemY += splitItem.length * 3.2 + 1;
+                });
+            });
+            
+            y = swotStartY + 95;
+            
+            // Recommendations
+            if (y > 200) { doc.addPage(); y = 20; }
+            doc.setTextColor(...darkGray);
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(translations[currentLang].recommendations_title, 15, y);
+            y += 8;
+            
+            const allRecs = [...(data.recommendations.training || []), ...(data.recommendations.certification || []), ...(data.recommendations.cv_improvement || [])].slice(0, 5);
+            allRecs.forEach(rec => {
+                if (y > 250) {
+                    doc.addPage();
+                    y = 20;
+                    doc.setFontSize(10);
+                    doc.setTextColor(...mediumGray);
+                    doc.text("(Continuación Plan de Acción)", 15, y);
+                    y += 10;
+                }
+                const priorityColor = rec.priority === 'critical' || rec.priority === 'high' ? danger : rec.priority === 'medium' ? gold : success;
+                doc.setFillColor(...priorityColor);
+                doc.roundedRect(15, y - 2, 3, 14, 1, 1, 'F');
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.text(rec.title, 22, y + 3);
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const splitDesc = doc.splitTextToSize(rec.description, 165);
+                doc.text(splitDesc, 22, y + 9);
+                y += 12 + splitDesc.length * 3.5;
+            });
+            
+            // Footer CTA
+            if (y > 245) { doc.addPage(); y = 20; }
+            y += 8;
+            doc.setFillColor(...gold);
+            doc.roundedRect(15, y, 180, 28, 4, 4, 'F');
+            doc.setFillColor(...copper);
+            doc.roundedRect(15, y + 24, 180, 4, 0, 0, 'F');
+            doc.setTextColor(...white);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text(translations[currentLang].consultancy_title.replace('¿', '').replace('?', ''), 105, y + 11, { align: 'center' });
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.text('rvprofilestudio@gmail.com | RV Profile Studio', 105, y + 19, { align: 'center' });
+            
+            doc.setTextColor(...mediumGray);
+            doc.setFontSize(7);
+            doc.text('RV Profile Studio v7.1 Professional | © 2025', 105, 290, { align: 'center' });
+            
+            doc.save(`RV_Profile_Report_${date.replace(/\//g, '-')}.pdf`);
+        }
+
+        function requestConsultancy() {
+            const subject = encodeURIComponent('Solicitud de Consultoría - RV Profile Studio');
+            const body = encodeURIComponent(`Hola,\n\nMe gustaría solicitar una sesión de consultoría personalizada tras analizar mi perfil en RV Profile Studio.\n\nMi puntuación: ${lastAnalysisResult?.score || 'N/A'}%\n\nQuedo a la espera de más información.\n\nSaludos`);
+            window.open(`mailto:rvprofilestudio@gmail.com?subject=${subject}&body=${body}`, '_blank');
+        }
+
+        checkReady();
+    </script>
+</body>
+</html>
