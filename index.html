@@ -3,7 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RV Profile Studio | Career Intelligence</title>
+    <title>RV Profile Studio | Análisis Profesional de CV</title>
+    <meta name="description" content="Analiza tu CV con inteligencia artificial. Obtén tu puntuación, análisis DAFO y recomendaciones personalizadas para destacar en el mercado laboral.">
+    
+    <!-- Open Graph / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RV Profile Studio | Análisis Profesional de CV">
+    <meta property="og:description" content="Descubre tu puntuación profesional, fortalezas y áreas de mejora. Análisis gratuito en 30 segundos.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/c4943f/ffffff?text=RV+Profile+Studio">
+    <meta property="og:url" content="">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RV Profile Studio | Análisis Profesional de CV">
+    <meta name="twitter:description" content="Descubre tu puntuación profesional, fortalezas y áreas de mejora. Análisis gratuito en 30 segundos.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    
+    <!-- Google Analytics - REEMPLAZA G-XXXXXXXXXX con tu ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+        
+        // Eventos personalizados para tracking
+        function trackEvent(action, category, label) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', action, { event_category: category, event_label: label });
+            }
+        }
+    </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,19 +81,33 @@
         }
         h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.3; }
         ::selection { background: var(--brand); color: white; }
+        a { color: var(--brand); text-decoration: none; }
+        a:hover { text-decoration: underline; }
         
         .app-wrapper { max-width: 1100px; margin: 0 auto; padding: var(--space-lg); }
         @media (min-width: 768px) { .app-wrapper { padding: var(--space-2xl); } }
         
+        /* Disclaimer Banner */
+        .disclaimer-banner {
+            background: var(--warning-bg); border: 1px solid var(--warning);
+            border-radius: var(--radius-md); padding: var(--space-md);
+            margin-bottom: var(--space-lg); font-size: 0.85rem; color: var(--slate-700);
+            display: flex; align-items: flex-start; gap: var(--space-sm);
+        }
+        [data-theme="dark"] .disclaimer-banner { color: var(--slate-200); }
+        .disclaimer-banner strong { color: var(--warning); }
+        .disclaimer-icon { font-size: 1.2rem; flex-shrink: 0; }
+        
         /* Header */
         .header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: var(--space-lg) 0; margin-bottom: var(--space-xl);
+            padding: var(--space-lg) 0; margin-bottom: var(--space-lg);
             border-bottom: 1px solid var(--brand-light);
         }
         .logo { display: flex; align-items: baseline; gap: var(--space-xs); }
         .logo-mark { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--brand); }
         .logo-text { font-family: var(--font-display); font-size: 1.4rem; color: var(--text-primary); letter-spacing: 1px; }
+        .logo-version { font-size: 0.7rem; color: var(--text-muted); margin-left: var(--space-xs); }
         .header-controls { display: flex; align-items: center; gap: var(--space-md); }
         .lang-select, .theme-toggle {
             font-family: var(--font-body); font-size: 0.875rem; padding: var(--space-sm) var(--space-md);
@@ -69,6 +115,20 @@
             background: transparent; color: var(--text-primary); cursor: pointer;
         }
         .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center; padding: var(--space-xl) 0; margin-bottom: var(--space-lg);
+        }
+        .hero h1 { font-size: 2.2rem; margin-bottom: var(--space-md); }
+        .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .hero-badges { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-lg); flex-wrap: wrap; }
+        .hero-badge { 
+            display: inline-flex; align-items: center; gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-md); background: var(--bg-card);
+            border-radius: var(--radius-lg); font-size: 0.85rem; color: var(--text-secondary);
+            border: 1px solid var(--slate-200);
+        }
         
         /* Panels */
         .panel { display: none; animation: fadeIn 0.4s ease; }
@@ -97,6 +157,9 @@
         .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-light); }
         .form-textarea { min-height: 200px; resize: vertical; line-height: 1.6; }
         .form-hint { font-size: 0.8rem; color: var(--text-muted); margin-top: var(--space-xs); }
+        .form-error { color: var(--danger); font-size: 0.85rem; margin-top: var(--space-xs); display: none; }
+        .form-group.error .form-error { display: block; }
+        .form-group.error .form-textarea { border-color: var(--danger); }
         
         /* Option Grid */
         .option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: var(--space-sm); }
@@ -108,6 +171,10 @@
         [data-theme="dark"] .option-pill { border-color: var(--slate-700); }
         .option-pill:hover { border-color: var(--brand); color: var(--brand); }
         .option-pill.selected { background: var(--brand); border-color: var(--brand); color: white; }
+        .option-pill.recommended { position: relative; }
+        .option-pill.recommended::after {
+            content: '⭐'; position: absolute; top: -8px; right: -8px; font-size: 0.9rem;
+        }
         
         /* Buttons */
         .btn {
@@ -125,7 +192,7 @@
         .btn-success { background: var(--success); color: white; }
         .btn-success:hover { background: #047857; }
         .btn-group { display: flex; gap: var(--space-md); margin-top: var(--space-lg); flex-wrap: wrap; }
-        .btn-group .btn { flex: 1; min-width: 200px; }
+        .btn-group .btn { flex: 1; min-width: 180px; }
         
         /* Results Header */
         .results-header {
@@ -159,11 +226,11 @@
         
         /* Metrics */
         .metric-item { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md); }
-        .metric-label { width: 140px; font-size: 0.85rem; font-weight: 500; flex-shrink: 0; }
+        .metric-label { width: 130px; font-size: 0.85rem; font-weight: 500; flex-shrink: 0; }
         .metric-bar { flex-grow: 1; height: 12px; background: var(--slate-200); border-radius: 6px; overflow: hidden; }
         [data-theme="dark"] .metric-bar { background: var(--slate-700); }
         .metric-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
-        .metric-value { width: 50px; text-align: right; font-weight: 600; font-size: 0.9rem; }
+        .metric-value { width: 45px; text-align: right; font-weight: 600; font-size: 0.9rem; }
         
         /* SWOT */
         .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
@@ -220,6 +287,24 @@
         .results-footer { text-align: center; padding: var(--space-lg); margin-top: var(--space-lg); border-top: 1px solid var(--slate-200); font-size: 0.85rem; color: var(--text-muted); }
         .results-footer a { color: var(--brand); }
         
+        /* App Footer */
+        .app-footer {
+            text-align: center; padding: var(--space-xl) 0; margin-top: var(--space-2xl);
+            border-top: 1px solid var(--slate-200); font-size: 0.85rem; color: var(--text-muted);
+        }
+        .app-footer-links { display: flex; justify-content: center; gap: var(--space-lg); margin-bottom: var(--space-md); flex-wrap: wrap; }
+        
+        /* Share buttons */
+        .share-buttons { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-lg); }
+        .share-btn {
+            padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md);
+            font-size: 0.85rem; font-weight: 500; cursor: pointer; border: none;
+            display: inline-flex; align-items: center; gap: var(--space-xs);
+        }
+        .share-btn.linkedin { background: #0077b5; color: white; }
+        .share-btn.twitter { background: #1da1f2; color: white; }
+        .share-btn.copy { background: var(--slate-200); color: var(--slate-700); }
+        
         /* Loading */
         .loader-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -242,7 +327,7 @@
         
         /* Print */
         @media print {
-            .header-controls, .btn-group, .cta-card, #panelInput, #jobFitInputCard { display: none !important; }
+            .header-controls, .btn-group, .cta-card, #panelInput, #jobFitInputCard, .disclaimer-banner, .share-buttons, .app-footer { display: none !important; }
             .card { box-shadow: none !important; break-inside: avoid; }
             body { background: white !important; }
         }
@@ -250,6 +335,7 @@
         /* Responsive */
         @media (max-width: 600px) {
             .header { flex-direction: column; gap: var(--space-md); text-align: center; }
+            .hero h1 { font-size: 1.8rem; }
             .card { padding: var(--space-lg); }
             .score-value { font-size: 2.5rem; }
             .btn-group { flex-direction: column; }
@@ -264,10 +350,20 @@
     </div>
 
     <div class="app-wrapper">
+        
+        <!-- Disclaimer -->
+        <div class="disclaimer-banner">
+            <span class="disclaimer-icon">⚠️</span>
+            <div>
+                <strong>Herramienta orientativa.</strong> Los resultados son una aproximación algorítmica basada en el análisis de palabras clave y estructura del CV. No sustituyen el criterio profesional de RRHH ni garantizan resultados en procesos de selección.
+            </div>
+        </div>
+        
         <header class="header">
             <div class="logo">
                 <span class="logo-mark">RV</span>
                 <span class="logo-text">Profile Studio</span>
+                <span class="logo-version">v4.1</span>
             </div>
             <div class="header-controls">
                 <select class="lang-select" id="langSelect" onchange="changeLang(this.value)">
@@ -275,28 +371,41 @@
                     <option value="en">English</option>
                     <option value="pt">Português</option>
                 </select>
-                <button class="theme-toggle" onclick="toggleTheme()"><span id="themeIcon">🌙</span></button>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema"><span id="themeIcon">🌙</span></button>
             </div>
         </header>
 
         <!-- PANEL 1: INPUT -->
         <section class="panel active" id="panelInput">
+            
+            <div class="hero">
+                <h1>Descubre el potencial de tu perfil profesional</h1>
+                <p>Analiza tu CV en 30 segundos y obtén recomendaciones personalizadas para destacar en el mercado laboral.</p>
+                <div class="hero-badges">
+                    <span class="hero-badge">✅ Gratuito</span>
+                    <span class="hero-badge">🔒 Privado (no guardamos datos)</span>
+                    <span class="hero-badge">⚡ Resultados en segundos</span>
+                </div>
+            </div>
+            
             <div class="card">
                 <h2 class="card-title">🎯 <span data-i18n="sector_title">Sector Profesional</span></h2>
-                <p class="card-subtitle" data-i18n="sector_subtitle">Selecciona tu área de especialización</p>
+                <p class="card-subtitle" data-i18n="sector_subtitle">Selecciona tu área de especialización principal</p>
                 <div class="option-grid" id="sectorGrid"></div>
             </div>
 
             <div class="card">
                 <h2 class="card-title">📊 <span data-i18n="level_title">Nivel de Experiencia</span></h2>
+                <p class="card-subtitle">Años de experiencia profesional total</p>
                 <div class="option-grid" id="levelGrid"></div>
             </div>
 
             <div class="card">
                 <h2 class="card-title">📄 <span data-i18n="cv_title">Tu Currículum</span></h2>
-                <p class="card-subtitle" data-i18n="cv_subtitle">Copia y pega el contenido completo de tu CV</p>
-                <div class="form-group">
+                <p class="card-subtitle" data-i18n="cv_subtitle">Copia y pega el contenido completo de tu CV (texto plano)</p>
+                <div class="form-group" id="cvGroup">
                     <textarea class="form-textarea" id="cvInput" placeholder="Pega aquí el texto de tu currículum..."></textarea>
+                    <p class="form-error">Por favor, introduce al menos 200 caracteres de tu CV.</p>
                     <div style="display: flex; justify-content: space-between; margin-top: var(--space-sm);">
                         <button class="btn-ghost" onclick="loadExample()">📋 Cargar ejemplo</button>
                         <span class="form-hint" id="charCount">0 caracteres</span>
@@ -315,10 +424,10 @@
             <!-- Action Buttons -->
             <div class="btn-group" style="margin-bottom: var(--space-xl);">
                 <button class="btn btn-secondary" onclick="showInput()">
-                    ← <span data-i18n="back_btn">Volver a editar</span>
+                    ← <span data-i18n="back_btn">Editar CV</span>
                 </button>
                 <button class="btn btn-success" onclick="toggleJobFit()" id="jobFitToggleBtn">
-                    🎯 <span data-i18n="add_jobfit">Añadir análisis de compatibilidad</span>
+                    🎯 <span data-i18n="add_jobfit">Comparar con oferta</span>
                 </button>
                 <button class="btn btn-primary" onclick="generatePDF()">
                     📥 <span data-i18n="download_pdf">Descargar PDF</span>
@@ -329,7 +438,7 @@
             <div class="card hidden" id="jobFitInputCard">
                 <h2 class="card-title">💼 <span data-i18n="job_title">Descripción del Puesto</span></h2>
                 <p class="card-subtitle" data-i18n="job_subtitle">Pega la oferta de trabajo para calcular tu compatibilidad</p>
-                <textarea class="form-textarea" id="jobInput" placeholder="Copia aquí la descripción del puesto..."></textarea>
+                <textarea class="form-textarea" id="jobInput" placeholder="Copia aquí la descripción completa del puesto..."></textarea>
                 <div class="btn-group">
                     <button class="btn btn-ghost" onclick="toggleJobFit()">Cancelar</button>
                     <button class="btn btn-success" onclick="runJobFitAnalysis()">🎯 Calcular compatibilidad</button>
@@ -369,6 +478,12 @@
                             <p class="meta-label">Experiencia</p>
                             <p class="meta-value" id="metaYears">-</p>
                         </div>
+                    </div>
+                    
+                    <!-- Share -->
+                    <div class="share-buttons">
+                        <button class="share-btn linkedin" onclick="shareLinkedIn()">🔗 Compartir en LinkedIn</button>
+                        <button class="share-btn copy" onclick="copyResults()">📋 Copiar resultado</button>
                     </div>
                 </div>
 
@@ -450,24 +565,43 @@
                 <!-- Footer -->
                 <div class="results-footer" id="resultsFooter">
                     <p>Generado con <strong>RV Profile Studio</strong> | <a href="mailto:rvprofilestudio@gmail.com">rvprofilestudio@gmail.com</a></p>
+                    <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">
+                        ⚠️ Análisis orientativo basado en algoritmos. No sustituye el criterio profesional.
+                    </p>
                 </div>
             </div>
 
             <!-- CTA -->
             <div class="card cta-card mt-lg">
-                <h3 class="card-title">¿Necesitas asesoramiento experto?</h3>
-                <p>Solicita una sesión estratégica para revisar estos resultados en profundidad.</p>
-                <button class="btn" onclick="contact()">📧 Contactar</button>
+                <h3 class="card-title">¿Quieres un análisis más profundo?</h3>
+                <p>Agenda una sesión de consultoría personalizada para revisar tu perfil y estrategia de carrera.</p>
+                <button class="btn" onclick="contact()">📧 Solicitar consultoría</button>
             </div>
         </section>
+        
+        <!-- App Footer -->
+        <footer class="app-footer">
+            <div class="app-footer-links">
+                <a href="mailto:rvprofilestudio@gmail.com">Contacto</a>
+                <span>|</span>
+                <a href="#" onclick="showPrivacy(); return false;">Privacidad</a>
+                <span>|</span>
+                <span>© 2025 RV Profile Studio</span>
+            </div>
+            <p>Desarrollado con ❤️ para profesionales que buscan destacar</p>
+        </footer>
     </div>
 
     <script>
         // ============================================
-        // RV PROFILE STUDIO v4.0 - PERSONALIZED ANALYSIS
+        // RV PROFILE STUDIO v4.1 - LAUNCH READY
         // ============================================
 
-        const CONFIG = { email: 'rvprofilestudio@gmail.com', version: '4.0.0' };
+        const CONFIG = { 
+            email: 'rvprofilestudio@gmail.com', 
+            version: '4.1.0',
+            url: window.location.href
+        };
 
         let state = {
             lang: 'es',
@@ -477,83 +611,329 @@
             job: '',
             profile: null,
             jobFit: null,
-            extracted: null, // Extracted CV data for personalization
+            extracted: null,
             charts: {}
         };
 
-        // --- i18n (simplified) ---
+        // --- i18n ---
         const i18n = {
             es: {
-                sector_title: 'Sector Profesional', sector_subtitle: 'Selecciona tu área de especialización',
+                sector_title: 'Sector Profesional', sector_subtitle: 'Selecciona tu área de especialización principal',
                 level_title: 'Nivel de Experiencia', cv_title: 'Tu Currículum',
-                cv_subtitle: 'Copia y pega el contenido completo de tu CV',
-                analyze_btn: 'Analizar mi Perfil', back_btn: 'Volver a editar',
-                add_jobfit: 'Añadir análisis de compatibilidad', download_pdf: 'Descargar PDF',
+                cv_subtitle: 'Copia y pega el contenido completo de tu CV (texto plano)',
+                analyze_btn: 'Analizar mi Perfil', back_btn: 'Editar CV',
+                add_jobfit: 'Comparar con oferta', download_pdf: 'Descargar PDF',
                 job_title: 'Descripción del Puesto', job_subtitle: 'Pega la oferta de trabajo para calcular tu compatibilidad',
                 loading: 'Analizando perfil...', loading_fit: 'Calculando compatibilidad...',
-                error_sector: 'Selecciona un sector', error_level: 'Selecciona un nivel',
-                error_cv: 'El CV debe tener al menos 100 caracteres', error_job: 'Pega la descripción del puesto',
-                years: 'años'
+                error_sector: 'Selecciona un sector profesional', error_level: 'Selecciona tu nivel de experiencia',
+                error_cv: 'El CV debe tener al menos 200 caracteres', error_job: 'Pega la descripción del puesto',
+                years: 'años', copied: '¡Copiado!'
             },
             en: {
-                sector_title: 'Professional Sector', sector_subtitle: 'Select your area of expertise',
+                sector_title: 'Professional Sector', sector_subtitle: 'Select your main area of expertise',
                 level_title: 'Experience Level', cv_title: 'Your Resume',
-                cv_subtitle: 'Copy and paste your complete CV content',
-                analyze_btn: 'Analyze my Profile', back_btn: 'Back to edit',
-                add_jobfit: 'Add job compatibility', download_pdf: 'Download PDF',
+                cv_subtitle: 'Copy and paste your complete CV content (plain text)',
+                analyze_btn: 'Analyze my Profile', back_btn: 'Edit CV',
+                add_jobfit: 'Compare with job', download_pdf: 'Download PDF',
                 job_title: 'Job Description', job_subtitle: 'Paste the job offer to calculate your fit',
                 loading: 'Analyzing profile...', loading_fit: 'Calculating compatibility...',
-                error_sector: 'Select a sector', error_level: 'Select a level',
-                error_cv: 'CV must have at least 100 characters', error_job: 'Paste the job description',
-                years: 'years'
+                error_sector: 'Select a professional sector', error_level: 'Select your experience level',
+                error_cv: 'CV must have at least 200 characters', error_job: 'Paste the job description',
+                years: 'years', copied: 'Copied!'
             },
             pt: {
-                sector_title: 'Setor Profissional', sector_subtitle: 'Selecione sua área de especialização',
+                sector_title: 'Setor Profissional', sector_subtitle: 'Selecione sua principal área de especialização',
                 level_title: 'Nível de Experiência', cv_title: 'Seu Currículo',
-                cv_subtitle: 'Copie e cole o conteúdo completo do seu CV',
-                analyze_btn: 'Analisar meu Perfil', back_btn: 'Voltar a editar',
-                add_jobfit: 'Adicionar análise de compatibilidade', download_pdf: 'Baixar PDF',
+                cv_subtitle: 'Copie e cole o conteúdo completo do seu CV (texto simples)',
+                analyze_btn: 'Analisar meu Perfil', back_btn: 'Editar CV',
+                add_jobfit: 'Comparar com vaga', download_pdf: 'Baixar PDF',
                 job_title: 'Descrição da Vaga', job_subtitle: 'Cole a oferta de trabalho para calcular sua compatibilidade',
                 loading: 'Analisando perfil...', loading_fit: 'Calculando compatibilidade...',
-                error_sector: 'Selecione um setor', error_level: 'Selecione um nível',
-                error_cv: 'O CV deve ter pelo menos 100 caracteres', error_job: 'Cole a descrição da vaga',
-                years: 'anos'
+                error_sector: 'Selecione um setor profissional', error_level: 'Selecione seu nível de experiência',
+                error_cv: 'O CV deve ter pelo menos 200 caracteres', error_job: 'Cole a descrição da vaga',
+                years: 'anos', copied: 'Copiado!'
             }
         };
 
         function t(key) { return i18n[state.lang][key] || key; }
 
-        // --- SECTORS ---
+        // --- SECTORS (REFINED KEYWORDS) ---
         const sectors = {
-            pm: { label: { es: 'Project Management', en: 'Project Management', pt: 'Project Management' },
-                keywords: ['project management', 'pmp', 'prince2', 'agile', 'scrum', 'kanban', 'jira', 'ms project', 'azure devops', 'waterfall', 'pmo', 'roadmap', 'milestone', 'risk management', 'stakeholder', 'budget', 'planning', 'program management'] },
-            transformation: { label: { es: 'Transformación / Change', en: 'Transformation / Change', pt: 'Transformação / Change' },
-                keywords: ['change management', 'transformation', 'lean', 'six sigma', 'dmaic', 'kaizen', 'continuous improvement', 'process improvement', 'value stream', 'vsm', 'sipoc', 'as-is', 'to-be', 'bpr', 'operating model', 'prosci', 'adkar', 'organizational design'] },
-            banking_ops: { label: { es: 'Banking Operations', en: 'Banking Operations', pt: 'Banking Operations' },
-                keywords: ['banking operations', 'operations excellence', 'service delivery', 'sla', 'back office', 'middle office', 'operational risk', 'compliance', 'aml', 'kyc', 'reconciliation', 'settlement', 'bpo', 'outsourcing', 'offshoring', 'nearshoring', 'vendor management', 'core banking', 'digital banking'] },
-            payments: { label: { es: 'Pagos / Treasury', en: 'Payments / Treasury', pt: 'Pagamentos / Treasury' },
-                keywords: ['payments', 'treasury', 'swift', 'sepa', 'iso20022', 'iso 20022', 'target2', 'instant payments', 'correspondent banking', 'nostro', 'vostro', 'fx', 'wire transfer', 'cash management', 'liquidity', 'psd2', 'payment hub', 'cbpr+', 'euro digital', 'cbdc'] },
-            product: { label: { es: 'Product Management', en: 'Product Management', pt: 'Product Management' },
-                keywords: ['product management', 'product owner', 'backlog', 'user stories', 'roadmap', 'mvp', 'product strategy', 'market research', 'a/b testing', 'prioritization', 'go-to-market', 'saas', 'agile', 'scrum'] },
-            tech: { label: { es: 'Tecnología / IT', en: 'Technology / IT', pt: 'Tecnologia / TI' },
-                keywords: ['software', 'development', 'programming', 'javascript', 'python', 'java', 'react', 'node', 'aws', 'azure', 'cloud', 'docker', 'kubernetes', 'devops', 'api', 'microservices', 'sql', 'database', 'architecture'] },
-            finance: { label: { es: 'Finanzas', en: 'Finance', pt: 'Finanças' },
-                keywords: ['financial analysis', 'fp&a', 'budgeting', 'forecasting', 'reporting', 'ifrs', 'gaap', 'audit', 'controlling', 'p&l', 'balance sheet', 'consolidation', 'sap', 'oracle', 'excel'] },
-            consulting: { label: { es: 'Consultoría', en: 'Consulting', pt: 'Consultoria' },
-                keywords: ['consulting', 'strategy', 'advisory', 'implementation', 'due diligence', 'business case', 'benchmarking', 'deliverables', 'workstreams', 'engagement'] },
-            data: { label: { es: 'Data / Analytics', en: 'Data / Analytics', pt: 'Data / Analytics' },
-                keywords: ['data analytics', 'business intelligence', 'bi', 'power bi', 'tableau', 'sql', 'python', 'data visualization', 'dashboards', 'kpi', 'machine learning', 'data science'] },
-            hr: { label: { es: 'Recursos Humanos', en: 'Human Resources', pt: 'Recursos Humanos' },
-                keywords: ['human resources', 'hr', 'talent acquisition', 'recruiting', 'onboarding', 'training', 'performance management', 'compensation', 'employee engagement', 'hrbp'] },
-            marketing: { label: { es: 'Marketing', en: 'Marketing', pt: 'Marketing' },
-                keywords: ['marketing', 'digital marketing', 'seo', 'sem', 'social media', 'content', 'branding', 'campaign', 'analytics', 'crm', 'hubspot'] },
-            sales: { label: { es: 'Ventas / BizDev', en: 'Sales / BizDev', pt: 'Vendas / BizDev' },
-                keywords: ['sales', 'business development', 'account management', 'pipeline', 'crm', 'negotiation', 'closing', 'b2b', 'b2c'] },
-            legal: { label: { es: 'Legal / Compliance', en: 'Legal / Compliance', pt: 'Legal / Compliance' },
-                keywords: ['legal', 'compliance', 'regulatory', 'gdpr', 'contracts', 'governance', 'risk', 'audit', 'policy'] },
-            ops: { label: { es: 'Operaciones / Logística', en: 'Operations / Logistics', pt: 'Operações / Logística' },
-                keywords: ['operations', 'logistics', 'supply chain', 'procurement', 'inventory', 'warehouse', 'lean', 'erp', 'sap'] },
-            other: { label: { es: 'Otro', en: 'Other', pt: 'Outro' }, keywords: [] }
+            banking_ops: { 
+                label: { es: 'Banking Operations', en: 'Banking Operations', pt: 'Banking Operations' },
+                recommended: true,
+                keywords: [
+                    // Core Operations
+                    'banking operations', 'operations excellence', 'service delivery', 'service excellence',
+                    'back office', 'middle office', 'front office', 'operations manager', 'head of operations',
+                    // Metrics & Quality
+                    'sla', 'kpi', 'operational risk', 'quality assurance', 'process efficiency',
+                    'error rate', 'processing time', 'turnaround time', 'accuracy',
+                    // Compliance & Risk
+                    'compliance', 'regulatory', 'aml', 'kyc', 'sanctions', 'fraud', 'audit',
+                    'internal controls', 'risk management', 'governance',
+                    // Processes
+                    'reconciliation', 'settlement', 'clearing', 'custody', 'account opening',
+                    'customer service', 'incident management', 'escalation',
+                    // Outsourcing
+                    'bpo', 'outsourcing', 'offshoring', 'nearshoring', 'vendor management',
+                    'service provider', 'third party', 'hub', 'shared services',
+                    // Technology
+                    'core banking', 'digital banking', 'fintech', 'neobank', 'automation', 'rpa',
+                    'digitization', 'straight-through processing', 'stp',
+                    // Leadership
+                    'team management', 'people management', 'stakeholder management',
+                    'cross-functional', 'continuous improvement', 'transformation'
+                ]
+            },
+            payments: { 
+                label: { es: 'Pagos / Treasury', en: 'Payments / Treasury', pt: 'Pagamentos / Treasury' },
+                recommended: true,
+                keywords: [
+                    // Payment Systems
+                    'payments', 'payment systems', 'payment operations', 'payment processing',
+                    'swift', 'sepa', 'sepa instant', 'instant payments', 'real-time payments',
+                    'target2', 'target', 'eba clearing', 'step2', 'tips',
+                    // ISO Standards
+                    'iso20022', 'iso 20022', 'cbpr+', 'cbpr', 'mx messages', 'mt messages',
+                    'pacs', 'pain', 'camt', 'migration',
+                    // Treasury
+                    'treasury', 'treasury operations', 'cash management', 'liquidity',
+                    'liquidity management', 'cash pooling', 'cash forecasting',
+                    // Correspondent Banking
+                    'correspondent banking', 'nostro', 'vostro', 'loro',
+                    'fx', 'foreign exchange', 'wire transfer', 'cross-border',
+                    // Types
+                    'ach', 'rtgs', 'direct debit', 'direct credit', 'batch',
+                    'urgent payments', 'high value', 'low value', 'bulk payments',
+                    // Regulatory
+                    'psd2', 'psd3', 'psr', 'open banking', 'api banking',
+                    // Innovation
+                    'euro digital', 'digital euro', 'cbdc', 'central bank digital currency',
+                    'blockchain', 'dlt', 'cryptocurrency', 'stablecoin',
+                    // Cards
+                    'card payments', 'acquiring', 'issuing', 'visa', 'mastercard',
+                    // Processes
+                    'exceptions', 'investigations', 'sanctions screening', 'payment hub',
+                    'payment gateway', 'payment factory'
+                ]
+            },
+            transformation: { 
+                label: { es: 'Transformación / Change', en: 'Transformation / Change', pt: 'Transformação / Change' },
+                recommended: true,
+                keywords: [
+                    // Change Management
+                    'change management', 'change lead', 'change manager', 'organizational change',
+                    'transformation', 'digital transformation', 'business transformation',
+                    'transformation office', 'transformation lead',
+                    // Methodologies
+                    'prosci', 'adkar', 'kotter', 'lewin', 'change curve',
+                    'stakeholder engagement', 'resistance management', 'adoption',
+                    // Lean & Continuous Improvement
+                    'lean', 'lean management', 'lean six sigma', 'six sigma',
+                    'dmaic', 'define measure analyze improve control',
+                    'kaizen', 'continuous improvement', 'process improvement',
+                    'value stream mapping', 'vsm', 'sipoc', 'gemba',
+                    'root cause analysis', 'rca', '5 whys', 'fishbone', 'pareto',
+                    // Process
+                    'bpr', 'business process reengineering', 'process redesign',
+                    'as-is', 'to-be', 'gap analysis', 'current state', 'future state',
+                    'operating model', 'target operating model', 'tom',
+                    // Agile
+                    'agile', 'agile transformation', 'scrum', 'kanban', 'safe',
+                    // Strategy
+                    'strategic', 'roadmap', 'business case', 'roi',
+                    'kpi', 'okr', 'metrics', 'balanced scorecard',
+                    // People
+                    'training', 'enablement', 'communication plan', 'culture change',
+                    'organizational design', 'org design', 'ways of working'
+                ]
+            },
+            pm: { 
+                label: { es: 'Project Management', en: 'Project Management', pt: 'Project Management' },
+                keywords: [
+                    'project management', 'project manager', 'program management', 'programme management',
+                    'pmp', 'prince2', 'pmbok', 'pmo', 'project office',
+                    'agile', 'scrum', 'scrum master', 'kanban', 'waterfall', 'hybrid',
+                    'jira', 'confluence', 'ms project', 'azure devops', 'asana', 'monday',
+                    'gantt', 'wbs', 'work breakdown', 'critical path', 'pert',
+                    'risk management', 'issue management', 'dependency', 'milestone',
+                    'stakeholder', 'steering committee', 'governance',
+                    'budget', 'cost control', 'resource management', 'capacity',
+                    'scope', 'timeline', 'deliverable', 'sprint', 'backlog',
+                    'earned value', 'evm', 'status report', 'dashboard'
+                ]
+            },
+            product: { 
+                label: { es: 'Product Management', en: 'Product Management', pt: 'Product Management' },
+                keywords: [
+                    'product management', 'product manager', 'product owner', 'po',
+                    'product strategy', 'product vision', 'product roadmap',
+                    'backlog', 'user stories', 'epics', 'features', 'requirements',
+                    'mvp', 'minimum viable product', 'product-market fit',
+                    'customer discovery', 'user research', 'market research',
+                    'competitive analysis', 'value proposition', 'positioning',
+                    'prioritization', 'moscow', 'rice', 'weighted scoring',
+                    'a/b testing', 'experimentation', 'metrics', 'kpi', 'okr',
+                    'north star', 'funnel', 'retention', 'engagement', 'nps',
+                    'go-to-market', 'gtm', 'launch', 'release',
+                    'agile', 'scrum', 'kanban', 'jira', 'confluence',
+                    'saas', 'b2b', 'b2c', 'platform', 'api'
+                ]
+            },
+            tech: { 
+                label: { es: 'Tecnología / IT', en: 'Technology / IT', pt: 'Tecnologia / TI' },
+                keywords: [
+                    'software', 'development', 'developer', 'engineer', 'engineering',
+                    'programming', 'coding', 'javascript', 'typescript', 'python', 'java', 'c#',
+                    'react', 'angular', 'vue', 'node', 'spring', '.net',
+                    'sql', 'nosql', 'database', 'mongodb', 'postgresql', 'mysql', 'oracle',
+                    'aws', 'azure', 'gcp', 'cloud', 'infrastructure',
+                    'docker', 'kubernetes', 'k8s', 'microservices', 'serverless',
+                    'api', 'rest', 'graphql', 'integration',
+                    'ci/cd', 'devops', 'gitops', 'git', 'jenkins', 'terraform',
+                    'testing', 'qa', 'automation', 'unit test', 'integration test',
+                    'architecture', 'system design', 'scalability', 'performance',
+                    'security', 'cybersecurity', 'networking',
+                    'machine learning', 'ml', 'ai', 'data science', 'data engineering'
+                ]
+            },
+            data: { 
+                label: { es: 'Data / Analytics', en: 'Data / Analytics', pt: 'Data / Analytics' },
+                keywords: [
+                    'data analytics', 'data analysis', 'business intelligence', 'bi',
+                    'data science', 'data scientist', 'data analyst', 'analytics',
+                    'power bi', 'tableau', 'looker', 'qlik', 'metabase',
+                    'sql', 'python', 'r', 'pandas', 'numpy',
+                    'data visualization', 'dashboards', 'reporting', 'insights',
+                    'kpi', 'metrics', 'data-driven', 'decision making',
+                    'etl', 'data pipeline', 'data warehouse', 'data lake',
+                    'big data', 'spark', 'hadoop', 'databricks', 'snowflake', 'dbt',
+                    'data modeling', 'data governance', 'data quality', 'master data',
+                    'machine learning', 'predictive analytics', 'forecasting',
+                    'a/b testing', 'experimentation', 'statistical analysis'
+                ]
+            },
+            consulting: { 
+                label: { es: 'Consultoría', en: 'Consulting', pt: 'Consultoria' },
+                keywords: [
+                    'consulting', 'consultant', 'management consulting', 'strategy consulting',
+                    'advisory', 'advisor', 'implementation', 'delivery',
+                    'due diligence', 'business case', 'feasibility',
+                    'market analysis', 'competitive analysis', 'benchmarking',
+                    'best practices', 'frameworks', 'methodology',
+                    'deliverables', 'workstreams', 'workstream lead',
+                    'client', 'engagement', 'proposal', 'rfp',
+                    'project management', 'change management', 'stakeholder',
+                    'workshop', 'facilitation', 'presentation', 'executive summary',
+                    'thought leadership', 'white paper', 'point of view'
+                ]
+            },
+            finance: { 
+                label: { es: 'Finanzas', en: 'Finance', pt: 'Finanças' },
+                keywords: [
+                    'financial analysis', 'finance', 'fp&a', 'financial planning',
+                    'budgeting', 'forecasting', 'reporting', 'financial reporting',
+                    'financial statements', 'p&l', 'profit and loss', 'balance sheet', 'cash flow',
+                    'variance analysis', 'cost accounting', 'management accounting',
+                    'consolidation', 'ifrs', 'gaap', 'sox', 'internal controls',
+                    'audit', 'internal audit', 'external audit', 'compliance',
+                    'tax', 'corporate tax', 'transfer pricing',
+                    'sap', 'oracle', 'hyperion', 'cognos', 'anaplan',
+                    'excel', 'financial modeling', 'valuation', 'dcf',
+                    'm&a', 'due diligence', 'investment', 'portfolio',
+                    'controller', 'cfo', 'finance director', 'finance manager'
+                ]
+            },
+            hr: { 
+                label: { es: 'Recursos Humanos', en: 'Human Resources', pt: 'Recursos Humanos' },
+                keywords: [
+                    'human resources', 'hr', 'people', 'people operations',
+                    'talent acquisition', 'recruiting', 'sourcing', 'hiring',
+                    'employer branding', 'candidate experience',
+                    'onboarding', 'offboarding', 'employee lifecycle',
+                    'hris', 'workday', 'successfactors', 'sap hr',
+                    'payroll', 'compensation', 'benefits', 'total rewards',
+                    'performance management', 'talent management', 'succession',
+                    'learning', 'l&d', 'training', 'development',
+                    'organizational development', 'culture', 'engagement',
+                    'employee experience', 'wellbeing',
+                    'labor relations', 'employment law', 'compliance',
+                    'diversity', 'dei', 'inclusion', 'equity',
+                    'hrbp', 'hr business partner', 'chro', 'hr director'
+                ]
+            },
+            marketing: { 
+                label: { es: 'Marketing', en: 'Marketing', pt: 'Marketing' },
+                keywords: [
+                    'marketing', 'marketing manager', 'digital marketing',
+                    'content marketing', 'content strategy', 'copywriting',
+                    'seo', 'sem', 'ppc', 'google ads', 'facebook ads', 'paid media',
+                    'social media', 'community', 'influencer',
+                    'email marketing', 'marketing automation', 'hubspot', 'marketo',
+                    'crm', 'salesforce', 'customer journey',
+                    'analytics', 'google analytics', 'attribution', 'roi', 'roas',
+                    'funnel', 'conversion', 'leads', 'mql', 'sql',
+                    'brand', 'branding', 'positioning', 'messaging',
+                    'campaign', 'launch', 'go-to-market',
+                    'pr', 'communications', 'events', 'webinar'
+                ]
+            },
+            sales: { 
+                label: { es: 'Ventas / BizDev', en: 'Sales / BizDev', pt: 'Vendas / BizDev' },
+                keywords: [
+                    'sales', 'sales manager', 'business development', 'bizdev',
+                    'account management', 'account executive', 'key account',
+                    'enterprise sales', 'b2b', 'b2c', 'saas sales',
+                    'solution selling', 'consultative selling', 'challenger sale',
+                    'pipeline', 'crm', 'salesforce', 'hubspot',
+                    'prospecting', 'cold calling', 'outreach', 'lead generation',
+                    'demos', 'presentations', 'proposals', 'rfp',
+                    'negotiation', 'closing', 'contract', 'pricing',
+                    'quota', 'target', 'forecast', 'territory',
+                    'revenue', 'arr', 'mrr', 'growth', 'retention', 'churn',
+                    'partnership', 'channel', 'reseller', 'alliance'
+                ]
+            },
+            legal: { 
+                label: { es: 'Legal / Compliance', en: 'Legal / Compliance', pt: 'Legal / Compliance' },
+                keywords: [
+                    'legal', 'lawyer', 'attorney', 'counsel', 'general counsel',
+                    'compliance', 'compliance officer', 'cco', 'regulatory',
+                    'gdpr', 'data protection', 'privacy', 'dpo',
+                    'contracts', 'commercial law', 'corporate law', 'contract management',
+                    'employment law', 'labor law',
+                    'litigation', 'dispute resolution', 'arbitration', 'mediation',
+                    'intellectual property', 'ip', 'patents', 'trademarks',
+                    'due diligence', 'm&a', 'corporate governance',
+                    'risk management', 'audit', 'internal controls',
+                    'policy', 'procedures', 'framework',
+                    'aml', 'kyc', 'sanctions', 'financial crime',
+                    'banking regulation', 'mifid', 'emir', 'basel', 'solvency'
+                ]
+            },
+            ops: { 
+                label: { es: 'Operaciones / Supply Chain', en: 'Operations / Supply Chain', pt: 'Operações / Supply Chain' },
+                keywords: [
+                    'operations', 'operations manager', 'coo',
+                    'logistics', 'supply chain', 'scm',
+                    'procurement', 'sourcing', 'purchasing', 'vendor management',
+                    'inventory', 'inventory management', 'stock',
+                    'warehouse', 'warehousing', 'distribution', 'fulfillment',
+                    'transportation', 'fleet', 'shipping', 'last mile',
+                    'manufacturing', 'production', 'plant',
+                    'quality', 'quality control', 'qc', 'quality assurance',
+                    'lean', 'lean manufacturing', 'six sigma', 'tps',
+                    'just in time', 'jit', 'kanban',
+                    'erp', 'sap', 'oracle', 'planning',
+                    'demand planning', 'forecasting', 's&op',
+                    'cost optimization', 'efficiency', 'productivity'
+                ]
+            },
+            other: { 
+                label: { es: 'Otro (análisis general)', en: 'Other (general analysis)', pt: 'Outro (análise geral)' }, 
+                keywords: [] 
+            }
         };
 
         const levels = [
@@ -565,21 +945,38 @@
         ];
 
         // --- UTILITIES ---
-        function showLoader(text) { document.getElementById('loaderText').textContent = text; document.getElementById('loader').classList.add('active'); }
+        function showLoader(text) { 
+            document.getElementById('loaderText').textContent = text; 
+            document.getElementById('loader').classList.add('active'); 
+        }
         function hideLoader() { document.getElementById('loader').classList.remove('active'); }
-        function normalize(t) { return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+        function normalize(t) { 
+            return t.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^\w\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim(); 
+        }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         // --- UI ---
         function changeLang(lang) {
             state.lang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-            renderSectors(); renderLevels();
+            renderSectors(); 
+            renderLevels();
+            trackEvent('change_language', 'settings', lang);
         }
 
         function toggleTheme() {
             const isDark = document.body.dataset.theme === 'dark';
             document.body.dataset.theme = isDark ? '' : 'dark';
             document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+            trackEvent('toggle_theme', 'settings', isDark ? 'light' : 'dark');
         }
 
         function renderSectors() {
@@ -587,9 +984,13 @@
             grid.innerHTML = '';
             Object.entries(sectors).forEach(([key, sec]) => {
                 const pill = document.createElement('div');
-                pill.className = 'option-pill' + (state.sector === key ? ' selected' : '');
+                pill.className = 'option-pill' + (state.sector === key ? ' selected' : '') + (sec.recommended ? ' recommended' : '');
                 pill.textContent = sec.label[state.lang];
-                pill.onclick = () => { state.sector = key; renderSectors(); };
+                pill.onclick = () => { 
+                    state.sector = key; 
+                    renderSectors(); 
+                    trackEvent('select_sector', 'input', key);
+                };
                 grid.appendChild(pill);
             });
         }
@@ -601,7 +1002,11 @@
                 const pill = document.createElement('div');
                 pill.className = 'option-pill' + (state.level === lv.id ? ' selected' : '');
                 pill.textContent = lv.label[state.lang];
-                pill.onclick = () => { state.level = lv.id; renderLevels(); };
+                pill.onclick = () => { 
+                    state.level = lv.id; 
+                    renderLevels(); 
+                    trackEvent('select_level', 'input', lv.id);
+                };
                 grid.appendChild(pill);
             });
         }
@@ -609,6 +1014,7 @@
         function showInput() {
             document.getElementById('panelInput').classList.add('active');
             document.getElementById('panelResults').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showResults() {
@@ -622,6 +1028,7 @@
             card.classList.toggle('hidden');
             if (!card.classList.contains('hidden')) {
                 card.scrollIntoView({ behavior: 'smooth' });
+                trackEvent('open_jobfit', 'feature', 'jobfit');
             }
         }
 
@@ -692,30 +1099,53 @@ IDIOMAS
 • Portugués: Nativo
 • Inglés: B2+ (Trinity College London)`;
             updateCharCount();
+            trackEvent('load_example', 'input', 'example_cv');
         }
 
         function updateCharCount() {
-            document.getElementById('charCount').textContent = document.getElementById('cvInput').value.length + ' caracteres';
+            const count = document.getElementById('cvInput').value.length;
+            document.getElementById('charCount').textContent = count.toLocaleString() + ' caracteres';
         }
 
-        // ============================================
-        // CV DATA EXTRACTION (for personalization)
-        // ============================================
+        function validateInputs() {
+            let valid = true;
+            
+            if (!state.sector) {
+                alert(t('error_sector'));
+                return false;
+            }
+            if (!state.level) {
+                alert(t('error_level'));
+                return false;
+            }
+            
+            const cv = document.getElementById('cvInput').value.trim();
+            const cvGroup = document.getElementById('cvGroup');
+            
+            if (cv.length < 200) {
+                cvGroup.classList.add('error');
+                document.getElementById('cvInput').focus();
+                return false;
+            } else {
+                cvGroup.classList.remove('error');
+            }
+            
+            return true;
+        }
+
+        // --- CV DATA EXTRACTION ---
         function extractCVData(cvText) {
             const text = cvText;
             const textLower = text.toLowerCase();
-            const textNorm = normalize(text);
             
-            // Extract companies
+            // Companies
             const companies = [];
-            const companyPatterns = [
-                /(?:^|\n)\s*([A-ZÁÉÍÓÚÑ][A-Za-záéíóúñ\s&]+)\s*[•·\-–|]\s*(?:Madrid|Barcelona|España|Spain|Portugal|Brazil|Brasil)/gmi,
-                /(?:en|at|@)\s+([A-Z][A-Za-z\s&]+?)(?:\s*[,•]|\s+(?:desde|from|during))/gi
-            ];
-            const knownCompanies = ['ING', 'BME', 'SIX Group', 'Minsait', 'Indra', 'Telefónica', 'WiZink', 'Citibank', 'BBVA', 'Santander', 'CaixaBank', 'Sabadell', 'N26', 'Revolut'];
+            const knownCompanies = ['ING', 'BME', 'SIX Group', 'Minsait', 'Indra', 'Telefónica', 'WiZink', 'Citibank', 
+                'BBVA', 'Santander', 'CaixaBank', 'Sabadell', 'N26', 'Revolut', 'Wise', 'Stripe',
+                'Accenture', 'McKinsey', 'BCG', 'Deloitte', 'PwC', 'EY', 'KPMG', 'IBM', 'Capgemini'];
             knownCompanies.forEach(c => { if (textLower.includes(c.toLowerCase())) companies.push(c); });
             
-            // Extract years of experience
+            // Years
             let years = 0;
             const yearsMatch = text.match(/[\+>]?\s*(\d{1,2})\s*\+?\s*(?:años|years|anos)/i);
             if (yearsMatch) years = parseInt(yearsMatch[1]);
@@ -724,35 +1154,33 @@ IDIOMAS
                 if (yearNums.length >= 2) years = Math.max(...yearNums) - Math.min(...yearNums);
             }
             
-            // Extract metrics/achievements
+            // Metrics
             const metrics = [];
             const metricPatterns = [
-                { pattern: /(\d+)\s*%\s*(?:reducción|reduction|ahorro|savings|mejora|improvement)/gi, type: 'percentage' },
-                { pattern: /€\s*([\d,.]+)\s*[kKmM]?/g, type: 'money' },
-                { pattern: /(\d+)\s*(?:personas|people|team|equipo)/gi, type: 'team' },
-                { pattern: /SLA\s*[>≥]?\s*(\d+)%/gi, type: 'sla' },
-                { pattern: /(\d+)\s*(?:proyectos|projects)/gi, type: 'projects' },
-                { pattern: /ahorro[s]?\s*(?:de\s*)?[€$]?\s*([\d,.]+)/gi, type: 'savings' }
+                /\d+\s*%/g,
+                /€\s*[\d,.]+[kKmM]?/g,
+                /\$\s*[\d,.]+[kKmM]?/g,
+                /[\d,.]+\s*(EUR|USD|GBP)/gi,
+                /\d+\s*(personas|people|team)/gi,
+                /SLA\s*[>≥]?\s*\d+%/gi
             ];
-            metricPatterns.forEach(({ pattern }) => {
-                const matches = text.match(pattern);
-                if (matches) metrics.push(...matches);
-            });
+            metricPatterns.forEach(p => { const m = text.match(p); if (m) metrics.push(...m); });
             
-            // Extract certifications
+            // Certifications
             const certifications = [];
-            const certKeywords = ['PMP', 'PRINCE2', 'Scrum Master', 'PSM', 'CSM', 'SAFe', 'Lean', 'Six Sigma', 'Green Belt', 'Black Belt', 'SWIFT', 'ISO20022', 'Power BI', 'AWS', 'Azure', 'CFA', 'ACCA'];
+            const certKeywords = ['PMP', 'PRINCE2', 'Scrum Master', 'PSM', 'CSM', 'SAFe', 'Lean', 'Six Sigma', 
+                'Green Belt', 'Black Belt', 'SWIFT', 'ISO20022', 'Power BI', 'AWS', 'Azure', 'CFA', 'ACCA'];
             certKeywords.forEach(cert => { if (textLower.includes(cert.toLowerCase())) certifications.push(cert); });
             
-            // Extract education
+            // Education
             const education = [];
             if (textLower.match(/\b(phd|doctorado|doctorate)\b/)) education.push('Doctorado');
             if (textLower.match(/\b(executive mba|emba)\b/)) education.push('Executive MBA');
             else if (textLower.match(/\bmba\b/)) education.push('MBA');
-            if (textLower.match(/\b(master|máster|mestrado)\b/)) education.push('Máster');
+            if (textLower.match(/\b(master|máster|mestrado)\b/) && !education.includes('MBA')) education.push('Máster');
             if (textLower.match(/\b(grado|degree|licenciatura|bachelor)\b/)) education.push('Grado universitario');
             
-            // Extract languages
+            // Languages
             const languages = [];
             if (textLower.match(/español|spanish|castellano/)) languages.push('Español');
             if (textLower.match(/inglés|english/)) languages.push('Inglés');
@@ -760,33 +1188,34 @@ IDIOMAS
             if (textLower.match(/francés|french/)) languages.push('Francés');
             if (textLower.match(/alemán|german/)) languages.push('Alemán');
             
-            // Extract language levels
-            const englishLevel = textLower.match(/ingl[eé]s[:\s]*([abc][12][\+]?|native|nativo|fluent|bilingual)/i);
+            const englishLevel = textLower.match(/ingl[eé]s[:\s]*([abc][12][\+]?|native|nativo|fluent|bilingual|bilingüe)/i);
             
-            // Extract key skills/tools
+            // Tools
             const tools = [];
-            const toolKeywords = ['Jira', 'Confluence', 'MS Project', 'Azure DevOps', 'SAP', 'Power BI', 'Excel', 'Tableau', 'SQL', 'Python', 'SWIFT', 'Salesforce'];
+            const toolKeywords = ['Jira', 'Confluence', 'MS Project', 'Azure DevOps', 'SAP', 'Power BI', 'Excel', 
+                'Tableau', 'SQL', 'Python', 'SWIFT', 'Salesforce', 'ServiceNow', 'Workday'];
             toolKeywords.forEach(tool => { if (textLower.includes(tool.toLowerCase())) tools.push(tool); });
             
-            // Extract methodologies
+            // Methodologies
             const methodologies = [];
-            const methKeywords = ['Agile', 'Scrum', 'Kanban', 'Waterfall', 'Lean', 'Six Sigma', 'DMAIC', 'Kaizen', 'Value Stream', 'SIPOC'];
+            const methKeywords = ['Agile', 'Scrum', 'Kanban', 'Waterfall', 'Lean', 'Six Sigma', 'DMAIC', 'Kaizen', 
+                'Value Stream', 'SIPOC', 'Design Thinking', 'SAFe'];
             methKeywords.forEach(m => { if (textLower.includes(m.toLowerCase())) methodologies.push(m); });
             
-            // Extract specific achievements (sentences with numbers)
+            // Achievements
             const achievements = [];
             const sentences = text.split(/[.!?]\s+/);
             sentences.forEach(s => {
                 if (s.match(/\d+\s*%|\d+\s*(personas|people|€|EUR|USD|\$|proyecto|project|ahorro|saving)/i)) {
-                    const clean = s.trim().substring(0, 100);
+                    const clean = s.trim().substring(0, 120);
                     if (clean.length > 20) achievements.push(clean);
                 }
             });
             
-            // Extract titles/roles
+            // Roles
             const roles = [];
-            const rolePatterns = ['Project Manager', 'Product Owner', 'Head of', 'Director', 'Lead', 'Manager', 'Specialist', 'Consultant', 'Analyst'];
-            rolePatterns.forEach(r => { if (textLower.includes(r.toLowerCase())) roles.push(r); });
+            const rolePatterns = ['Head of', 'Director', 'Manager', 'Lead', 'Senior', 'Specialist', 'Consultant', 'Owner'];
+            rolePatterns.forEach(r => { if (text.includes(r)) roles.push(r); });
             
             return {
                 companies: [...new Set(companies)].slice(0, 5),
@@ -803,9 +1232,7 @@ IDIOMAS
             };
         }
 
-        // ============================================
-        // PROFILE ANALYSIS ENGINE
-        // ============================================
+        // --- ANALYSIS ENGINE ---
         function analyzeProfile(cvText, sectorKey, levelId) {
             const cv = normalize(cvText);
             const sector = sectors[sectorKey];
@@ -813,17 +1240,15 @@ IDIOMAS
             const extracted = extractCVData(cvText);
             state.extracted = extracted;
             
-            // Calculate metrics
             const metrics = {
                 experience: calculateExperience(extracted.years, level),
-                education: calculateEducation(extracted, cvText),
+                education: calculateEducation(extracted),
                 technical: calculateTechnical(cv, sector, extracted),
                 leadership: calculateLeadership(cvText, extracted),
                 achievements: calculateAchievements(extracted),
                 languages: calculateLanguages(extracted)
             };
             
-            // Weights by level
             const weights = {
                 junior: { experience: 0.20, education: 0.25, technical: 0.25, leadership: 0.10, achievements: 0.12, languages: 0.08 },
                 mid: { experience: 0.22, education: 0.18, technical: 0.25, leadership: 0.15, achievements: 0.12, languages: 0.08 },
@@ -834,7 +1259,6 @@ IDIOMAS
             
             let score = Object.keys(metrics).reduce((sum, k) => sum + metrics[k] * weights[k], 0);
             
-            // Bonuses
             if (Object.values(metrics).every(v => v >= 70)) score += 4;
             if (Object.values(metrics).some(v => v >= 95)) score += 2;
             if (extracted.years >= 15 && (levelId === 'lead' || levelId === 'director')) score += 3;
@@ -844,9 +1268,9 @@ IDIOMAS
             return {
                 score,
                 metrics,
-                swot: generatePersonalizedSWOT(metrics, extracted, sector, level, state.lang),
-                recommendations: generatePersonalizedRecommendations(metrics, extracted, sector, state.lang),
-                synthesis: generatePersonalizedSynthesis(score, metrics, extracted, sector, level, state.lang)
+                swot: generateSWOT(metrics, extracted, sector, level, state.lang),
+                recommendations: generateRecommendations(metrics, extracted, sector, state.lang),
+                synthesis: generateSynthesis(score, metrics, extracted, sector, level, state.lang)
             };
         }
 
@@ -860,7 +1284,7 @@ IDIOMAS
             return 50;
         }
 
-        function calculateEducation(extracted, cvText) {
+        function calculateEducation(extracted) {
             let score = 40;
             if (extracted.education.includes('Doctorado')) score = 100;
             else if (extracted.education.includes('Executive MBA')) score = 95;
@@ -878,10 +1302,9 @@ IDIOMAS
             if (!sector.keywords.length) return 75;
             
             const matches = sector.keywords.filter(kw => cvNorm.includes(kw.toLowerCase())).length;
-            const ratio = matches / Math.min(12, sector.keywords.length);
-            let score = Math.min(100, 40 + ratio * 60);
+            const ratio = matches / Math.min(15, sector.keywords.length);
+            let score = Math.min(100, 35 + ratio * 65);
             
-            // Bonus for tools/methodologies
             score = Math.min(100, score + extracted.tools.length * 2);
             score = Math.min(100, score + extracted.methodologies.length * 2);
             
@@ -892,7 +1315,6 @@ IDIOMAS
             let score = 45;
             const text = cvText.toLowerCase();
             
-            // Team management
             const teamMatch = text.match(/(\d+)\s*(personas|people|team|equipo)/i);
             if (teamMatch) {
                 const size = parseInt(teamMatch[1]);
@@ -901,18 +1323,15 @@ IDIOMAS
                 else if (size >= 4) score += 12;
             }
             
-            // Leadership roles
-            if (extracted.roles.some(r => r.match(/head|director|lead/i))) score += 15;
-            if (extracted.roles.includes('Manager')) score += 10;
+            if (extracted.roles.some(r => r.match(/head|director/i))) score += 15;
+            if (extracted.roles.includes('Manager') || extracted.roles.includes('Lead')) score += 10;
             
-            // Leadership keywords
-            const leaderWords = ['led', 'managed', 'founded', 'created', 'built', 'lideré', 'gestioné', 'fundé', 'creé', 'construí'];
+            const leaderWords = ['led', 'managed', 'founded', 'created', 'built', 'lideré', 'gestioné', 'fundé', 'creé', 'construí', 'dirigí'];
             const leaderCount = leaderWords.filter(w => text.includes(w)).length;
             score += leaderCount * 3;
             
-            // Stakeholder management
             if (text.includes('stakeholder')) score += 5;
-            if (text.includes('cross-functional') || text.includes('transversal')) score += 5;
+            if (text.includes('cross-functional') || text.includes('transversal') || text.includes('multidisciplinar')) score += 5;
             
             return Math.min(100, score);
         }
@@ -929,7 +1348,7 @@ IDIOMAS
             score += extracted.languages.length * 12;
             
             if (extracted.englishLevel) {
-                if (extracted.englishLevel.match(/C[12]|NATIVE|BILINGUAL/i)) score += 20;
+                if (extracted.englishLevel.match(/C[12]|NATIVE|BILINGUAL|BILINGÜE/i)) score += 20;
                 else if (extracted.englishLevel.match(/B2/i)) score += 12;
                 else if (extracted.englishLevel.match(/B1/i)) score += 8;
             }
@@ -937,174 +1356,96 @@ IDIOMAS
             return Math.min(100, score);
         }
 
-        // ============================================
-        // PERSONALIZED CONTENT GENERATION
-        // ============================================
-        function generatePersonalizedSWOT(metrics, extracted, sector, level, lang) {
+        // --- SWOT GENERATION ---
+        function generateSWOT(metrics, extracted, sector, level, lang) {
             const swot = { strengths: [], weaknesses: [], opportunities: [], threats: [] };
             const sectorName = sector.label[lang];
             
-            // --- STRENGTHS (personalized) ---
-            if (extracted.years >= 15) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Sólida trayectoria de ${extracted.years}+ años${extracted.companies.length ? ', con experiencia en ' + extracted.companies.slice(0, 3).join(', ') : ''}` :
-                    lang === 'en' ?
-                    `Strong track record of ${extracted.years}+ years${extracted.companies.length ? ', with experience at ' + extracted.companies.slice(0, 3).join(', ') : ''}` :
-                    `Sólida trajetória de ${extracted.years}+ anos${extracted.companies.length ? ', com experiência em ' + extracted.companies.slice(0, 3).join(', ') : ''}`);
+            // STRENGTHS
+            if (extracted.years >= 15 && extracted.companies.length) {
+                swot.strengths.push(`Sólida trayectoria de ${extracted.years}+ años con experiencia en ${extracted.companies.slice(0, 3).join(', ')}`);
+            } else if (extracted.years >= 10) {
+                swot.strengths.push(`${extracted.years}+ años de experiencia profesional consolidada`);
             }
             
             if (extracted.education.length >= 2) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Formación académica destacada: ${extracted.education.join(', ')}` :
-                    lang === 'en' ?
-                    `Outstanding academic background: ${extracted.education.join(', ')}` :
-                    `Formação acadêmica destacada: ${extracted.education.join(', ')}`);
+                swot.strengths.push(`Formación académica destacada: ${extracted.education.join(' + ')}`);
             }
             
             if (extracted.certifications.length >= 2) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Certificaciones profesionales relevantes: ${extracted.certifications.slice(0, 4).join(', ')}` :
-                    lang === 'en' ?
-                    `Relevant professional certifications: ${extracted.certifications.slice(0, 4).join(', ')}` :
-                    `Certificações profissionais relevantes: ${extracted.certifications.slice(0, 4).join(', ')}`);
+                swot.strengths.push(`Certificaciones profesionales: ${extracted.certifications.slice(0, 4).join(', ')}`);
             }
             
             if (extracted.methodologies.length >= 3) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Dominio de metodologías clave: ${extracted.methodologies.slice(0, 4).join(', ')}` :
-                    lang === 'en' ?
-                    `Mastery of key methodologies: ${extracted.methodologies.slice(0, 4).join(', ')}` :
-                    `Domínio de metodologias-chave: ${extracted.methodologies.slice(0, 4).join(', ')}`);
+                swot.strengths.push(`Dominio de metodologías: ${extracted.methodologies.slice(0, 4).join(', ')}`);
             }
             
             if (extracted.metrics.length >= 3) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Historial de logros cuantificables con impacto demostrable (${extracted.metrics.slice(0, 2).join(', ')})` :
-                    lang === 'en' ?
-                    `Track record of quantifiable achievements with demonstrable impact (${extracted.metrics.slice(0, 2).join(', ')})` :
-                    `Histórico de conquistas quantificáveis com impacto demonstrável (${extracted.metrics.slice(0, 2).join(', ')})`);
+                swot.strengths.push(`Logros cuantificables demostrados (${extracted.metrics.slice(0, 2).join(', ')})`);
             }
             
             if (extracted.languages.length >= 3) {
-                swot.strengths.push(lang === 'es' ? 
-                    `Perfil multilingüe (${extracted.languages.join(', ')}) con proyección internacional` :
-                    lang === 'en' ?
-                    `Multilingual profile (${extracted.languages.join(', ')}) with international reach` :
-                    `Perfil multilíngue (${extracted.languages.join(', ')}) com alcance internacional`);
+                swot.strengths.push(`Perfil multilingüe: ${extracted.languages.join(', ')}`);
             }
             
             if (metrics.leadership >= 80) {
-                swot.strengths.push(lang === 'es' ? 
-                    'Capacidad demostrada de liderazgo y gestión de equipos multidisciplinares' :
-                    lang === 'en' ?
-                    'Demonstrated leadership and cross-functional team management ability' :
-                    'Capacidade demonstrada de liderança e gestão de equipes multidisciplinares');
+                swot.strengths.push('Capacidad demostrada de liderazgo y gestión de equipos');
             }
             
-            // Ensure minimum
             while (swot.strengths.length < 3) {
-                swot.strengths.push(lang === 'es' ? 'Perfil estructurado con experiencia en entornos corporativos' :
-                    lang === 'en' ? 'Structured profile with corporate experience' :
-                    'Perfil estruturado com experiência corporativa');
+                swot.strengths.push('Perfil estructurado con experiencia en entornos corporativos');
             }
+            swot.strengths = swot.strengths.slice(0, 5);
             
-            // --- WEAKNESSES (constructive, personalized) ---
+            // WEAKNESSES
             if (extracted.englishLevel && extracted.englishLevel.match(/B[12]/i)) {
-                swot.weaknesses.push(lang === 'es' ? 
-                    `Inglés a nivel ${extracted.englishLevel}: considera certificación avanzada (C1) para roles internacionales` :
-                    lang === 'en' ?
-                    `English at ${extracted.englishLevel} level: consider advanced certification (C1) for international roles` :
-                    `Inglês nível ${extracted.englishLevel}: considere certificação avançada (C1) para funções internacionais`);
+                swot.weaknesses.push(`Inglés ${extracted.englishLevel}: considera certificación C1 para roles internacionales`);
             }
             
-            if (metrics.technical < 70) {
+            if (metrics.technical < 75) {
                 const missing = sector.keywords.filter(kw => !normalize(state.cv).includes(kw.toLowerCase())).slice(0, 3);
                 if (missing.length) {
-                    swot.weaknesses.push(lang === 'es' ? 
-                        `Oportunidad de destacar más keywords del sector: ${missing.join(', ')}` :
-                        lang === 'en' ?
-                        `Opportunity to highlight more sector keywords: ${missing.join(', ')}` :
-                        `Oportunidade de destacar mais palavras-chave do setor: ${missing.join(', ')}`);
+                    swot.weaknesses.push(`Oportunidad de incluir keywords: ${missing.join(', ')}`);
                 }
             }
             
             if (metrics.achievements < 70) {
-                swot.weaknesses.push(lang === 'es' ? 
-                    'Los logros podrían beneficiarse de más métricas cuantificables (%, €, tiempo)' :
-                    lang === 'en' ?
-                    'Achievements could benefit from more quantifiable metrics (%, €, time)' :
-                    'As conquistas poderiam se beneficiar de mais métricas quantificáveis (%, €, tempo)');
+                swot.weaknesses.push('Los logros podrían incluir más métricas cuantificables (%, €, tiempo)');
             }
             
             if (extracted.tools.length < 3) {
-                swot.weaknesses.push(lang === 'es' ? 
-                    'Considera mencionar más herramientas específicas utilizadas en tus proyectos' :
-                    lang === 'en' ?
-                    'Consider mentioning more specific tools used in your projects' :
-                    'Considere mencionar mais ferramentas específicas usadas em seus projetos');
+                swot.weaknesses.push('Considera mencionar más herramientas específicas del sector');
             }
             
             while (swot.weaknesses.length < 2) {
-                swot.weaknesses.push(lang === 'es' ? 'El CV podría beneficiarse de keywords adicionales del sector objetivo' :
-                    lang === 'en' ? 'CV could benefit from additional target sector keywords' :
-                    'O CV poderia se beneficiar de palavras-chave adicionais do setor alvo');
+                swot.weaknesses.push('El CV podría beneficiarse de keywords adicionales del sector');
+            }
+            swot.weaknesses = swot.weaknesses.slice(0, 4);
+            
+            // OPPORTUNITIES
+            swot.opportunities.push(`Alta demanda de profesionales senior en ${sectorName}`);
+            
+            if (extracted.methodologies.some(m => m.match(/lean|agile/i))) {
+                swot.opportunities.push('Tu experiencia en Lean/Agile es muy valorada en transformación digital');
             }
             
-            // --- OPPORTUNITIES (market-aware) ---
-            swot.opportunities.push(lang === 'es' ? 
-                `Alta demanda de profesionales senior en ${sectorName} con tu experiencia` :
-                lang === 'en' ?
-                `High demand for senior professionals in ${sectorName} with your experience` :
-                `Alta demanda de profissionais seniores em ${sectorName} com sua experiência`);
+            swot.opportunities.push('El trabajo remoto/híbrido amplía opciones geográficas');
+            swot.opportunities.push('Posibilidad de posicionarte como thought leader en tu especialidad');
             
-            if (extracted.methodologies.includes('Lean') || extracted.methodologies.includes('Agile')) {
-                swot.opportunities.push(lang === 'es' ? 
-                    'Tu experiencia en metodologías ágiles/Lean es muy valorada en transformación digital' :
-                    lang === 'en' ?
-                    'Your agile/Lean methodology experience is highly valued in digital transformation' :
-                    'Sua experiência em metodologias ágeis/Lean é muito valorizada em transformação digital');
-            }
-            
-            swot.opportunities.push(lang === 'es' ? 
-                'Tendencia hacia trabajo remoto/híbrido amplía opciones geográficas' :
-                lang === 'en' ?
-                'Remote/hybrid work trend expands geographical options' :
-                'Tendência de trabalho remoto/híbrido amplia opções geográficas');
-            
-            swot.opportunities.push(lang === 'es' ? 
-                'Posibilidad de posicionarte como thought leader en tu especialidad' :
-                lang === 'en' ?
-                'Opportunity to position yourself as a thought leader in your specialty' :
-                'Possibilidade de se posicionar como thought leader na sua especialidade');
-            
-            // --- THREATS ---
-            swot.threats.push(lang === 'es' ? 
-                `Competencia intensa para roles senior en ${sectorName}` :
-                lang === 'en' ?
-                `Intense competition for senior roles in ${sectorName}` :
-                `Competição intensa para funções seniores em ${sectorName}`);
-            
-            swot.threats.push(lang === 'es' ? 
-                'Rápida evolución tecnológica requiere actualización continua' :
-                lang === 'en' ?
-                'Rapid technological evolution requires continuous updating' :
-                'Rápida evolução tecnológica requer atualização contínua');
+            // THREATS
+            swot.threats.push(`Competencia intensa para roles senior en ${sectorName}`);
+            swot.threats.push('La evolución tecnológica requiere actualización continua');
             
             if (level.id === 'lead' || level.id === 'director') {
-                swot.threats.push(lang === 'es' ? 
-                    'Expectativas salariales senior pueden limitar opciones en startups/scale-ups' :
-                    lang === 'en' ?
-                    'Senior salary expectations may limit options in startups/scale-ups' :
-                    'Expectativas salariais seniores podem limitar opções em startups/scale-ups');
+                swot.threats.push('Expectativas salariales senior pueden limitar opciones en startups');
             }
             
             return swot;
         }
 
-        function generatePersonalizedRecommendations(metrics, extracted, sector, lang) {
+        // --- RECOMMENDATIONS ---
+        function generateRecommendations(metrics, extracted, sector, lang) {
             const recs = [];
-            
-            // Based on lowest metrics, but personalized
             const sorted = Object.entries(metrics).sort((a, b) => a[1] - b[1]);
             
             sorted.slice(0, 3).forEach(([key, value], idx) => {
@@ -1114,139 +1455,80 @@ IDIOMAS
                 if (key === 'technical' && value < 85) {
                     const missing = sector.keywords.filter(kw => !normalize(state.cv).includes(kw.toLowerCase())).slice(0, 4);
                     recs.push({ priority, 
-                        title: lang === 'es' ? 'Optimizar keywords técnicas' : lang === 'en' ? 'Optimize technical keywords' : 'Otimizar palavras-chave técnicas',
-                        desc: lang === 'es' ? 
-                            `Tu CV se beneficiaría de incluir: ${missing.join(', ')}. Añádelas donde tengas experiencia real.` :
-                            lang === 'en' ?
-                            `Your CV would benefit from including: ${missing.join(', ')}. Add them where you have real experience.` :
-                            `Seu CV se beneficiaria de incluir: ${missing.join(', ')}. Adicione-os onde você tem experiência real.`
+                        title: 'Optimizar keywords técnicas',
+                        desc: `Tu CV se beneficiaría de incluir: ${missing.join(', ')}. Añádelas donde tengas experiencia real.`
                     });
                 }
                 
                 if (key === 'achievements' && value < 80) {
                     recs.push({ priority,
-                        title: lang === 'es' ? 'Cuantificar más logros' : lang === 'en' ? 'Quantify more achievements' : 'Quantificar mais conquistas',
-                        desc: lang === 'es' ? 
-                            `Ya tienes ${extracted.metrics.length} métricas. Objetivo: añadir 2-3 más por rol. Incluye: % de mejora, € ahorrados, personas lideradas, plazos cumplidos.` :
-                            lang === 'en' ?
-                            `You have ${extracted.metrics.length} metrics. Goal: add 2-3 more per role. Include: % improvement, € saved, people led, deadlines met.` :
-                            `Você tem ${extracted.metrics.length} métricas. Objetivo: adicionar 2-3 mais por função. Inclua: % de melhoria, € economizados, pessoas lideradas, prazos cumpridos.`
+                        title: 'Cuantificar más logros',
+                        desc: `Tienes ${extracted.metrics.length} métricas. Objetivo: añadir 2-3 más por rol (% mejora, € ahorrados, personas lideradas).`
                     });
                 }
                 
                 if (key === 'languages' && value < 75) {
                     recs.push({ priority,
-                        title: lang === 'es' ? 'Reforzar perfil de idiomas' : lang === 'en' ? 'Strengthen language profile' : 'Reforçar perfil de idiomas',
-                        desc: lang === 'es' ? 
-                            `${extracted.englishLevel ? 'Tu inglés es ' + extracted.englishLevel + '. ' : ''}Considera certificación oficial (Cambridge, IELTS) para validar nivel y acceder a roles internacionales.` :
-                            lang === 'en' ?
-                            `${extracted.englishLevel ? 'Your English is ' + extracted.englishLevel + '. ' : ''}Consider official certification (Cambridge, IELTS) to validate level and access international roles.` :
-                            `${extracted.englishLevel ? 'Seu inglês é ' + extracted.englishLevel + '. ' : ''}Considere certificação oficial (Cambridge, IELTS) para validar nível e acessar funções internacionais.`
+                        title: 'Reforzar perfil de idiomas',
+                        desc: extracted.englishLevel ? 
+                            `Tu inglés es ${extracted.englishLevel}. Una certificación oficial (Cambridge, IELTS) validaría tu nivel para roles internacionales.` :
+                            'Indica claramente tu nivel de inglés con certificación si es posible.'
                     });
                 }
                 
                 if (key === 'leadership' && value < 80 && (state.level === 'lead' || state.level === 'director')) {
                     recs.push({ priority,
-                        title: lang === 'es' ? 'Destacar experiencia de liderazgo' : lang === 'en' ? 'Highlight leadership experience' : 'Destacar experiência de liderança',
-                        desc: lang === 'es' ? 
-                            'Para roles senior, enfatiza: tamaño de equipos gestionados, presupuestos, stakeholders C-level, decisiones estratégicas tomadas.' :
-                            lang === 'en' ?
-                            'For senior roles, emphasize: team sizes managed, budgets, C-level stakeholders, strategic decisions made.' :
-                            'Para funções seniores, enfatize: tamanho de equipes gerenciadas, orçamentos, stakeholders C-level, decisões estratégicas tomadas.'
-                    });
-                }
-                
-                if (key === 'education' && value < 70 && extracted.certifications.length < 2) {
-                    recs.push({ priority,
-                        title: lang === 'es' ? 'Añadir certificaciones' : lang === 'en' ? 'Add certifications' : 'Adicionar certificações',
-                        desc: lang === 'es' ? 
-                            `Para ${sector.label[lang]}, considera: ${sector.keywords.slice(0, 3).map(k => k.toUpperCase()).join(', ')} o certificaciones relacionadas.` :
-                            lang === 'en' ?
-                            `For ${sector.label[lang]}, consider: ${sector.keywords.slice(0, 3).map(k => k.toUpperCase()).join(', ')} or related certifications.` :
-                            `Para ${sector.label[lang]}, considere: ${sector.keywords.slice(0, 3).map(k => k.toUpperCase()).join(', ')} ou certificações relacionadas.`
+                        title: 'Destacar experiencia de liderazgo',
+                        desc: 'Para roles senior: enfatiza tamaño de equipos, presupuestos gestionados, stakeholders C-level.'
                     });
                 }
             });
             
-            // Always add ATS optimization
             recs.push({ priority: 'low',
-                title: lang === 'es' ? 'Optimización ATS' : lang === 'en' ? 'ATS Optimization' : 'Otimização ATS',
-                desc: lang === 'es' ? 
-                    'Asegura formato limpio (sin tablas complejas, columnas o gráficos). Los ATS leen mejor texto plano con encabezados claros.' :
-                    lang === 'en' ?
-                    'Ensure clean format (no complex tables, columns or graphics). ATS reads plain text with clear headers better.' :
-                    'Garanta formato limpo (sem tabelas complexas, colunas ou gráficos). Os ATS leem melhor texto simples com cabeçalhos claros.'
+                title: 'Optimización para ATS',
+                desc: 'Formato limpio sin tablas complejas. Los sistemas ATS leen mejor texto plano con encabezados claros.'
             });
             
             return recs.slice(0, 4);
         }
 
-        function generatePersonalizedSynthesis(score, metrics, extracted, sector, level, lang) {
+        // --- SYNTHESIS ---
+        function generateSynthesis(score, metrics, extracted, sector, level, lang) {
             const sectorName = sector.label[lang];
             const levelName = level.label[lang].split(' ')[0];
             
-            let quality = '';
-            if (score >= 90) quality = { es: 'excepcional', en: 'exceptional', pt: 'excepcional' }[lang];
-            else if (score >= 82) quality = { es: 'excelente', en: 'excellent', pt: 'excelente' }[lang];
-            else if (score >= 75) quality = { es: 'muy sólido', en: 'very strong', pt: 'muito sólido' }[lang];
-            else if (score >= 65) quality = { es: 'sólido', en: 'solid', pt: 'sólido' }[lang];
-            else quality = { es: 'competitivo', en: 'competitive', pt: 'competitivo' }[lang];
+            let quality = score >= 90 ? 'excepcional' : score >= 82 ? 'excelente' : score >= 75 ? 'muy sólido' : score >= 65 ? 'sólido' : 'competitivo';
             
             const strongest = Object.entries(metrics).sort((a, b) => b[1] - a[1])[0][0];
             const weakest = Object.entries(metrics).sort((a, b) => a[1] - b[1])[0][0];
             
-            const metricLabels = {
-                experience: { es: 'experiencia profesional', en: 'professional experience', pt: 'experiência profissional' },
-                education: { es: 'formación académica', en: 'academic background', pt: 'formação acadêmica' },
-                technical: { es: 'competencias técnicas', en: 'technical skills', pt: 'competências técnicas' },
-                leadership: { es: 'capacidad de liderazgo', en: 'leadership ability', pt: 'capacidade de liderança' },
-                achievements: { es: 'logros cuantificables', en: 'quantifiable achievements', pt: 'conquistas quantificáveis' },
-                languages: { es: 'perfil de idiomas', en: 'language profile', pt: 'perfil de idiomas' }
+            const labels = {
+                experience: 'experiencia profesional', education: 'formación académica',
+                technical: 'competencias técnicas', leadership: 'capacidad de liderazgo',
+                achievements: 'logros cuantificables', languages: 'perfil de idiomas'
             };
             
             const companies = extracted.companies.length ? extracted.companies.slice(0, 3).join(', ') : '';
             const certs = extracted.certifications.length ? extracted.certifications.slice(0, 3).join(', ') : '';
             
-            if (lang === 'es') {
-                return `Perfil profesional <strong>${quality}</strong> para <strong>${sectorName}</strong> a nivel <strong>${levelName}</strong>. ` +
-                    `Con <strong>${extracted.years}+ años de experiencia</strong>${companies ? ' incluyendo ' + companies : ''}, ` +
-                    `tu punto más destacado es <strong>${metricLabels[strongest].es}</strong> (${Math.round(metrics[strongest])}%). ` +
-                    `${certs ? 'Tus certificaciones (' + certs + ') refuerzan tu perfil técnico. ' : ''}` +
-                    `El área con mayor potencial de mejora es <strong>${metricLabels[weakest].es}</strong> (${Math.round(metrics[weakest])}%). ` +
-                    `Con una puntuación del <strong>${score}%</strong>, ${score >= 75 ? 'estás muy bien posicionado para roles senior en el mercado actual.' : 'tienes una base sólida con oportunidades claras de diferenciación.'}`;
-            } else if (lang === 'en') {
-                return `<strong>${quality.charAt(0).toUpperCase() + quality.slice(1)}</strong> professional profile for <strong>${sectorName}</strong> at <strong>${levelName}</strong> level. ` +
-                    `With <strong>${extracted.years}+ years of experience</strong>${companies ? ' including ' + companies : ''}, ` +
-                    `your strongest point is <strong>${metricLabels[strongest].en}</strong> (${Math.round(metrics[strongest])}%). ` +
-                    `${certs ? 'Your certifications (' + certs + ') strengthen your technical profile. ' : ''}` +
-                    `The area with most improvement potential is <strong>${metricLabels[weakest].en}</strong> (${Math.round(metrics[weakest])}%). ` +
-                    `With a score of <strong>${score}%</strong>, ${score >= 75 ? 'you are very well positioned for senior roles in the current market.' : 'you have a solid foundation with clear differentiation opportunities.'}`;
-            } else {
-                return `Perfil profissional <strong>${quality}</strong> para <strong>${sectorName}</strong> em nível <strong>${levelName}</strong>. ` +
-                    `Com <strong>${extracted.years}+ anos de experiência</strong>${companies ? ' incluindo ' + companies : ''}, ` +
-                    `seu ponto mais forte é <strong>${metricLabels[strongest].pt}</strong> (${Math.round(metrics[strongest])}%). ` +
-                    `${certs ? 'Suas certificações (' + certs + ') reforçam seu perfil técnico. ' : ''}` +
-                    `A área com maior potencial de melhoria é <strong>${metricLabels[weakest].pt}</strong> (${Math.round(metrics[weakest])}%). ` +
-                    `Com uma pontuação de <strong>${score}%</strong>, ${score >= 75 ? 'você está muito bem posicionado para funções seniores no mercado atual.' : 'você tem uma base sólida com oportunidades claras de diferenciação.'}`;
-            }
+            return `Perfil profesional <strong>${quality}</strong> para <strong>${sectorName}</strong> a nivel <strong>${levelName}</strong>. ` +
+                `Con <strong>${extracted.years}+ años de experiencia</strong>${companies ? ' en ' + companies : ''}, ` +
+                `tu punto más destacado es <strong>${labels[strongest]}</strong> (${Math.round(metrics[strongest])}%). ` +
+                `${certs ? 'Certificaciones como ' + certs + ' refuerzan tu perfil. ' : ''}` +
+                `El área con mayor potencial de mejora es <strong>${labels[weakest]}</strong> (${Math.round(metrics[weakest])}%). ` +
+                `Con un <strong>${score}%</strong>, ${score >= 75 ? 'estás muy bien posicionado para roles senior.' : 'tienes una base sólida con oportunidades claras de diferenciación.'}`;
         }
 
-        // ============================================
-        // JOB FIT ANALYSIS
-        // ============================================
+        // --- JOB FIT ---
         function analyzeJobFit(cvText, jobText) {
             const cvNorm = normalize(cvText);
-            const jobLower = jobText.toLowerCase();
             const extracted = state.extracted;
             
-            // Extract job title
             const titleMatch = jobText.match(/^(.+?)(?:\n|$)/);
             const jobTitle = titleMatch ? titleMatch[1].trim().substring(0, 60) : 'Puesto';
             
-            // Extract requirements from job
             const requirements = extractJobRequirements(jobText);
             
-            // Match
             const matching = [];
             const gaps = [];
             
@@ -1259,20 +1541,20 @@ IDIOMAS
                 }
             });
             
-            // Score calculation
             const matchRatio = requirements.length ? matching.length / requirements.length : 0;
             const profileContrib = state.profile.score * 0.35;
             const matchContrib = matchRatio * 50;
             
-            // Experience bonus
             const yearsRequired = (jobText.match(/(\d+)\+?\s*(?:years?|años?)/i) || [])[1];
             let expBonus = 10;
             if (yearsRequired && extracted.years >= parseInt(yearsRequired)) expBonus = 15;
             
             const fitScore = Math.min(95, Math.round(profileContrib + matchContrib + expBonus));
             
-            // Strategy
-            const strategy = generateFitStrategy(matching, gaps, extracted, jobTitle, state.lang);
+            const strategy = `<strong>Para ${escapeHtml(jobTitle)}:</strong> Tu perfil coincide en: ${matching.slice(0, 4).join(', ') || 'varios aspectos'}. ` +
+                `${gaps.length ? 'Áreas a reforzar: ' + gaps.slice(0, 3).join(', ') + '. ' : ''}` +
+                `<strong>Estrategia:</strong> En tu carta, vincula tus logros (${extracted.metrics.slice(0, 2).join(', ') || 'resultados'}) con los requisitos del puesto.` +
+                `${extracted.companies.length ? ' Tu experiencia en ' + extracted.companies[0] + ' es relevante.' : ''}`;
             
             return { score: fitScore, title: jobTitle, matching, gaps: gaps.slice(0, 8), strategy };
         }
@@ -1281,18 +1563,15 @@ IDIOMAS
             const text = jobText.toLowerCase();
             const reqs = new Set();
             
-            // From current sector
-            if (state.sector) {
+            if (state.sector && sectors[state.sector]) {
                 sectors[state.sector].keywords.forEach(kw => {
                     if (text.includes(kw.toLowerCase())) reqs.add(kw);
                 });
             }
             
-            // Common requirements
             const common = ['leadership', 'management', 'team', 'strategic', 'analytical', 'communication', 
-                'stakeholder', 'agile', 'scrum', 'project management', 'excel', 'english', 'spanish',
-                'data-driven', 'process improvement', 'compliance', 'regulatory', 'risk', 'budget',
-                'operations', 'customer', 'cross-functional', 'international', 'global'];
+                'stakeholder', 'agile', 'project management', 'english', 'data-driven', 'process', 
+                'compliance', 'risk', 'budget', 'operations', 'customer', 'cross-functional', 'international'];
             common.forEach(c => { if (text.includes(c)) reqs.add(c); });
             
             return [...reqs].slice(0, 25);
@@ -1304,7 +1583,6 @@ IDIOMAS
                 'management': ['gestión', 'manager', 'gerencia'],
                 'team': ['equipo', 'team', 'personas'],
                 'strategic': ['estratégico', 'estrategia'],
-                'analytical': ['analítico', 'análisis'],
                 'operations': ['operaciones', 'operacional'],
                 'customer': ['cliente', 'customer service'],
                 'global': ['internacional', 'multinacional'],
@@ -1319,42 +1597,16 @@ IDIOMAS
             return false;
         }
 
-        function generateFitStrategy(matching, gaps, extracted, jobTitle, lang) {
-            const matchList = matching.slice(0, 4).join(', ');
-            const gapList = gaps.slice(0, 3).join(', ');
-            
-            if (lang === 'es') {
-                return `<strong>Para ${jobTitle}:</strong> Tu perfil coincide bien en: ${matchList || 'varios aspectos clave'}. ` +
-                    `${gaps.length ? 'Las áreas a reforzar son: ' + gapList + '. ' : ''}` +
-                    `<strong>Estrategia:</strong> En tu carta de presentación, vincula directamente tus logros cuantificados ` +
-                    `(${extracted.metrics.slice(0, 2).join(', ') || 'tus resultados'}) con los requisitos del puesto. ` +
-                    `${extracted.companies.length ? 'Tu experiencia en ' + extracted.companies[0] + ' es especialmente relevante.' : ''}`;
-            } else if (lang === 'en') {
-                return `<strong>For ${jobTitle}:</strong> Your profile matches well in: ${matchList || 'several key aspects'}. ` +
-                    `${gaps.length ? 'Areas to strengthen are: ' + gapList + '. ' : ''}` +
-                    `<strong>Strategy:</strong> In your cover letter, directly link your quantified achievements ` +
-                    `(${extracted.metrics.slice(0, 2).join(', ') || 'your results'}) with the job requirements. ` +
-                    `${extracted.companies.length ? 'Your experience at ' + extracted.companies[0] + ' is especially relevant.' : ''}`;
-            } else {
-                return `<strong>Para ${jobTitle}:</strong> Seu perfil coincide bem em: ${matchList || 'vários aspectos-chave'}. ` +
-                    `${gaps.length ? 'As áreas a reforçar são: ' + gapList + '. ' : ''}` +
-                    `<strong>Estratégia:</strong> Na sua carta de apresentação, vincule diretamente suas conquistas quantificadas ` +
-                    `(${extracted.metrics.slice(0, 2).join(', ') || 'seus resultados'}) com os requisitos da vaga. ` +
-                    `${extracted.companies.length ? 'Sua experiência em ' + extracted.companies[0] + ' é especialmente relevante.' : ''}`;
-            }
-        }
-
-        // ============================================
-        // MAIN FUNCTIONS
-        // ============================================
+        // --- MAIN FUNCTIONS ---
         async function runProfileAnalysis() {
-            if (!state.sector) { alert(t('error_sector')); return; }
-            if (!state.level) { alert(t('error_level')); return; }
+            if (!validateInputs()) return;
+            
             state.cv = document.getElementById('cvInput').value.trim();
-            if (state.cv.length < 100) { alert(t('error_cv')); return; }
             
             showLoader(t('loading'));
-            await new Promise(r => setTimeout(r, 1200));
+            trackEvent('start_analysis', 'analysis', state.sector);
+            
+            await new Promise(r => setTimeout(r, 1500));
             
             state.profile = analyzeProfile(state.cv, state.sector, state.level);
             state.jobFit = null;
@@ -1362,6 +1614,8 @@ IDIOMAS
             hideLoader();
             renderResults();
             showResults();
+            
+            trackEvent('complete_analysis', 'analysis', state.profile.score.toString());
         }
 
         async function runJobFitAnalysis() {
@@ -1369,6 +1623,8 @@ IDIOMAS
             if (state.job.length < 50) { alert(t('error_job')); return; }
             
             showLoader(t('loading_fit'));
+            trackEvent('start_jobfit', 'analysis', 'jobfit');
+            
             await new Promise(r => setTimeout(r, 800));
             
             state.jobFit = analyzeJobFit(state.cv, state.job);
@@ -1376,67 +1632,48 @@ IDIOMAS
             hideLoader();
             renderJobFitResults();
             document.getElementById('jobFitInputCard').classList.add('hidden');
+            
+            trackEvent('complete_jobfit', 'analysis', state.jobFit.score.toString());
         }
 
-        // ============================================
-        // RENDERING
-        // ============================================
+        // --- RENDERING ---
         function renderResults() {
             const p = state.profile;
             
-            // Date
             document.getElementById('resultsDate').textContent = new Date().toLocaleDateString(
                 state.lang === 'en' ? 'en-US' : state.lang === 'pt' ? 'pt-BR' : 'es-ES',
                 { year: 'numeric', month: 'long', day: 'numeric' }
             );
             
-            // Score
             document.getElementById('mainScore').textContent = p.score + '%';
-            document.getElementById('scoreLabel').textContent = state.lang === 'es' ? 'Puntuación del Perfil' : 
-                state.lang === 'en' ? 'Profile Score' : 'Pontuação do Perfil';
             
-            let interp = '';
-            if (p.score >= 90) interp = { es: '🏆 Perfil Excepcional', en: '🏆 Exceptional Profile', pt: '🏆 Perfil Excepcional' }[state.lang];
-            else if (p.score >= 82) interp = { es: '🌟 Perfil Excelente', en: '🌟 Excellent Profile', pt: '🌟 Perfil Excelente' }[state.lang];
-            else if (p.score >= 75) interp = { es: '✨ Perfil Muy Sólido', en: '✨ Very Strong Profile', pt: '✨ Perfil Muito Sólido' }[state.lang];
-            else if (p.score >= 65) interp = { es: '👍 Perfil Sólido', en: '👍 Solid Profile', pt: '👍 Perfil Sólido' }[state.lang];
-            else interp = { es: '📈 Perfil Competitivo', en: '📈 Competitive Profile', pt: '📈 Perfil Competitivo' }[state.lang];
+            let interp = p.score >= 90 ? '🏆 Perfil Excepcional' : p.score >= 82 ? '🌟 Perfil Excelente' : 
+                p.score >= 75 ? '✨ Perfil Muy Sólido' : p.score >= 65 ? '👍 Perfil Sólido' : '📈 Perfil Competitivo';
             document.getElementById('scoreInterpretation').textContent = interp;
             
-            // Meta
             document.getElementById('metaSector').textContent = sectors[state.sector].label[state.lang];
             document.getElementById('metaLevel').textContent = levels.find(l => l.id === state.level).label[state.lang].split(' ')[0];
             document.getElementById('metaYears').textContent = state.extracted.years + '+ ' + t('years');
             
-            // Gauge
             renderGauge(p.score);
-            
-            // Synthesis
             document.getElementById('synthesisText').innerHTML = p.synthesis;
-            
-            // Chart
             renderRadar(p.metrics);
-            
-            // Metrics bars
             renderMetricBars(p.metrics);
             
-            // SWOT
             ['strengths', 'weaknesses', 'opportunities', 'threats'].forEach(key => {
-                document.getElementById(key + 'List').innerHTML = p.swot[key].map(item => `<li>${item}</li>`).join('');
+                document.getElementById(key + 'List').innerHTML = p.swot[key].map(item => `<li>${escapeHtml(item)}</li>`).join('');
             });
             
-            // Recommendations
             document.getElementById('recommendationsList').innerHTML = p.recommendations.map((r, i) => `
                 <li class="rec-item">
                     <div class="rec-priority ${r.priority}">${i + 1}</div>
                     <div class="rec-content">
-                        <div class="rec-title">${r.title}</div>
-                        <div class="rec-desc">${r.desc}</div>
+                        <div class="rec-title">${escapeHtml(r.title)}</div>
+                        <div class="rec-desc">${escapeHtml(r.desc)}</div>
                     </div>
                 </li>
             `).join('');
             
-            // Hide job fit if not done
             document.getElementById('jobFitResults').classList.add('hidden');
         }
 
@@ -1448,8 +1685,8 @@ IDIOMAS
             document.getElementById('jobFitPosition').textContent = jf.title;
             document.getElementById('jobFitScore').textContent = jf.score + '%';
             
-            document.getElementById('matchingSkills').innerHTML = jf.matching.map(s => `<span class="tag match">${s}</span>`).join('');
-            document.getElementById('gapSkills').innerHTML = jf.gaps.map(s => `<span class="tag gap">${s}</span>`).join('');
+            document.getElementById('matchingSkills').innerHTML = jf.matching.map(s => `<span class="tag match">${escapeHtml(s)}</span>`).join('');
+            document.getElementById('gapSkills').innerHTML = jf.gaps.map(s => `<span class="tag gap">${escapeHtml(s)}</span>`).join('');
             
             document.getElementById('fitStrategy').innerHTML = jf.strategy;
             
@@ -1461,7 +1698,6 @@ IDIOMAS
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 200, 200);
             
-            // Background
             ctx.beginPath();
             ctx.arc(100, 100, 85, 0.75 * Math.PI, 2.25 * Math.PI);
             ctx.strokeStyle = '#e2e8f0';
@@ -1469,7 +1705,6 @@ IDIOMAS
             ctx.lineCap = 'round';
             ctx.stroke();
             
-            // Score
             ctx.beginPath();
             ctx.arc(100, 100, 85, 0.75 * Math.PI, 0.75 * Math.PI + (score / 100) * 1.5 * Math.PI);
             const grad = ctx.createLinearGradient(0, 0, 200, 200);
@@ -1485,11 +1720,7 @@ IDIOMAS
             const ctx = document.getElementById('radarChart').getContext('2d');
             if (state.charts.radar) state.charts.radar.destroy();
             
-            const labels = state.lang === 'es' ? 
-                ['Experiencia', 'Formación', 'Técnicas', 'Liderazgo', 'Logros', 'Idiomas'] :
-                state.lang === 'en' ?
-                ['Experience', 'Education', 'Technical', 'Leadership', 'Achievements', 'Languages'] :
-                ['Experiência', 'Formação', 'Técnicas', 'Liderança', 'Conquistas', 'Idiomas'];
+            const labels = ['Experiencia', 'Formación', 'Técnicas', 'Liderazgo', 'Logros', 'Idiomas'];
             
             state.charts.radar = new Chart(ctx, {
                 type: 'radar',
@@ -1513,13 +1744,10 @@ IDIOMAS
         }
 
         function renderMetricBars(metrics) {
-            const labels = state.lang === 'es' ? 
-                { experience: 'Experiencia', education: 'Formación', technical: 'Skills Técnicas', leadership: 'Liderazgo', achievements: 'Logros', languages: 'Idiomas' } :
-                state.lang === 'en' ?
-                { experience: 'Experience', education: 'Education', technical: 'Technical Skills', leadership: 'Leadership', achievements: 'Achievements', languages: 'Languages' } :
-                { experience: 'Experiência', education: 'Formação', technical: 'Skills Técnicas', leadership: 'Liderança', achievements: 'Conquistas', languages: 'Idiomas' };
-            
-            const colors = { experience: '#d4a853', education: '#a37633', technical: '#059669', leadership: '#7c3aed', achievements: '#0284c7', languages: '#db2777' };
+            const labels = { experience: 'Experiencia', education: 'Formación', technical: 'Skills Técnicas', 
+                leadership: 'Liderazgo', achievements: 'Logros', languages: 'Idiomas' };
+            const colors = { experience: '#d4a853', education: '#a37633', technical: '#059669', 
+                leadership: '#7c3aed', achievements: '#0284c7', languages: '#db2777' };
             
             document.getElementById('metricsContainer').innerHTML = Object.entries(metrics).map(([k, v]) => `
                 <div class="metric-item">
@@ -1530,15 +1758,35 @@ IDIOMAS
             `).join('');
         }
 
-        // ============================================
-        // PDF
-        // ============================================
+        // --- SHARING ---
+        function shareLinkedIn() {
+            const text = `🎯 Acabo de analizar mi perfil profesional con RV Profile Studio y obtuve un ${state.profile.score}%\n\n` +
+                `Prueba gratis esta herramienta para conocer tus fortalezas y áreas de mejora:\n${CONFIG.url}`;
+            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(CONFIG.url)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+            trackEvent('share', 'social', 'linkedin');
+        }
+
+        function copyResults() {
+            const text = `Mi puntuación en RV Profile Studio: ${state.profile.score}%\n` +
+                `Sector: ${sectors[state.sector].label[state.lang]}\n` +
+                `Nivel: ${levels.find(l => l.id === state.level).label[state.lang]}\n\n` +
+                `Analiza tu perfil gratis: ${CONFIG.url}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert(t('copied'));
+                trackEvent('share', 'copy', 'clipboard');
+            });
+        }
+
+        // --- PDF ---
         async function generatePDF() {
             showLoader('Generando PDF...');
+            trackEvent('download', 'pdf', 'start');
             
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
             
+            const originalTheme = document.body.dataset.theme;
             document.body.dataset.theme = '';
             await new Promise(r => setTimeout(r, 100));
             
@@ -1569,27 +1817,39 @@ IDIOMAS
             pdf.setFontSize(8); pdf.setTextColor(150); pdf.text(`${page}`, 105, 292, { align: 'center' });
             pdf.save(`RV_Profile_${new Date().toISOString().split('T')[0]}.pdf`);
             
+            document.body.dataset.theme = originalTheme;
             hideLoader();
+            trackEvent('download', 'pdf', 'complete');
         }
 
         function contact() {
-            const subject = encodeURIComponent('Consulta - RV Profile Studio');
-            const body = encodeURIComponent(`Hola,\n\nHe analizado mi perfil y obtuve ${state.profile?.score || '-'}%.\n\nMe gustaría solicitar asesoramiento.\n\nSaludos.`);
+            const subject = encodeURIComponent('Solicitud de Consultoría - RV Profile Studio');
+            const body = encodeURIComponent(`Hola,\n\nHe analizado mi perfil con RV Profile Studio y obtuve ${state.profile?.score || '-'}%.\n\nMe gustaría solicitar una sesión de consultoría personalizada.\n\nSaludos.`);
             window.open(`mailto:${CONFIG.email}?subject=${subject}&body=${body}`);
+            trackEvent('contact', 'email', 'consultant');
         }
 
-        // ============================================
-        // INIT
-        // ============================================
+        function showPrivacy() {
+            alert('Política de Privacidad\n\n' +
+                '• No almacenamos ningún dato de tu CV\n' +
+                '• El análisis se realiza localmente en tu navegador\n' +
+                '• Solo usamos Google Analytics para estadísticas anónimas de uso\n' +
+                '• Puedes contactarnos en: ' + CONFIG.email);
+        }
+
+        // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
             renderSectors();
             renderLevels();
             document.getElementById('cvInput').addEventListener('input', updateCharCount);
+            
             if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
                 document.body.dataset.theme = 'dark';
                 document.getElementById('themeIcon').textContent = '☀️';
             }
-            console.log('RV Profile Studio v' + CONFIG.version);
+            
+            console.log('RV Profile Studio v' + CONFIG.version + ' - Ready');
+            trackEvent('page_view', 'app', 'load');
         });
     </script>
 </body>
